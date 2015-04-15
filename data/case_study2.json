@@ -1,0 +1,2067 @@
+[
+    {
+        "mut": [
+            {
+                "pos": 41222944, 
+                "scores": {
+                    "MaxEntScan": 2.34, 
+                    "HSF": 79.07
+                }
+            }, 
+            {
+                "pos": 41222971, 
+                "scores": {
+                    "HSF": 71.51
+                }
+            }, 
+            {
+                "pos": 41222974, 
+                "scores": {
+                    "HSF": 70.55
+                }
+            }, 
+            {
+                "pos": 41222879, 
+                "scores": {
+                    "SSFL": 73.33333333333333, 
+                    "HSF": 78.81, 
+                    "MaxEntScan": 2.16
+                }
+            }, 
+            {
+                "pos": 41222870, 
+                "scores": {
+                    "HSF": 66.24
+                }
+            }, 
+            {
+                "pos": 41222969, 
+                "scores": {
+                    "HSF": 66.75
+                }
+            }, 
+            {
+                "pos": 41222928, 
+                "scores": {
+                    "HSF": 66.33
+                }
+            }, 
+            {
+                "pos": 41222875, 
+                "scores": {
+                    "HSF": 74.96, 
+                    "MaxEntScan": 5.64
+                }
+            }, 
+            {
+                "pos": 41222892, 
+                "scores": {
+                    "HSF": 66.08
+                }
+            }, 
+            {
+                "pos": 41222995, 
+                "scores": {
+                    "HSF": 74.83
+                }
+            }
+        ], 
+        "predict": {
+            "AMG-kreftgenetikk": [
+                {
+                    "Effect": "no_effect", 
+                    "scores": {
+                        "SSFL": [
+                            0.0, 
+                            0.0
+                        ], 
+                        "NNSplice": [
+                            0.66, 
+                            0.0
+                        ], 
+                        "MaxEntScan": [
+                            5.91, 
+                            2.34
+                        ], 
+                        "GeneSplicer": [
+                            0.0, 
+                            0.0
+                        ]
+                    }
+                }
+            ], 
+            "Jian14nar": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "MaxEntScan": [
+                            5.91, 
+                            2.34
+                        ]
+                    }
+                }
+            ], 
+            "AMG-diag": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "NNSplice": [
+                            0.66, 
+                            0.0
+                        ], 
+                        "MaxEntScan": [
+                            5.91, 
+                            2.34
+                        ], 
+                        "HSF": [
+                            81.24, 
+                            79.07
+                        ]
+                    }
+                }
+            ], 
+            "Houdayer": [
+                {
+                    "Effect": "no_effect", 
+                    "scores": {
+                        "SSFL": [
+                            0.0, 
+                            0.0
+                        ], 
+                        "MaxEntScan": [
+                            5.91, 
+                            2.34
+                        ]
+                    }
+                }
+            ]
+        }, 
+        "chrom": "17", 
+        "pos": 41222939, 
+        "authentic": {
+            "transcript": "NM_007299", 
+            "splice_type": "Donor", 
+            "pos": 41222944, 
+            "strand": "-"
+        }, 
+        "wild": [
+            {
+                "pos": 41222944, 
+                "scores": {
+                    "MaxEntScan": 5.91, 
+                    "HSF": 81.24, 
+                    "NNSplice": 0.66
+                }
+            }, 
+            {
+                "pos": 41222971, 
+                "scores": {
+                    "HSF": 71.51
+                }
+            }, 
+            {
+                "pos": 41222974, 
+                "scores": {
+                    "HSF": 70.55
+                }
+            }, 
+            {
+                "pos": 41222879, 
+                "scores": {
+                    "SSFL": 73.33333333333333, 
+                    "HSF": 78.81, 
+                    "MaxEntScan": 2.16
+                }
+            }, 
+            {
+                "pos": 41222870, 
+                "scores": {
+                    "HSF": 66.24
+                }
+            }, 
+            {
+                "pos": 41222969, 
+                "scores": {
+                    "HSF": 66.75
+                }
+            }, 
+            {
+                "pos": 41222928, 
+                "scores": {
+                    "HSF": 66.33
+                }
+            }, 
+            {
+                "pos": 41222875, 
+                "scores": {
+                    "HSF": 74.96, 
+                    "MaxEntScan": 5.64
+                }
+            }, 
+            {
+                "pos": 41222892, 
+                "scores": {
+                    "HSF": 66.08
+                }
+            }, 
+            {
+                "pos": 41222995, 
+                "scores": {
+                    "HSF": 74.83
+                }
+            }
+        ], 
+        "alt": "G", 
+        "ref": "A", 
+        "ID": "cs2_1"
+    }, 
+    {
+        "mut": [
+            {
+                "pos": 7578413, 
+                "scores": {
+                    "MaxEntScan": 1.8, 
+                    "HSF": 79.53
+                }
+            }, 
+            {
+                "pos": 7578336, 
+                "scores": {
+                    "HSF": 67.7
+                }
+            }, 
+            {
+                "pos": 7578371, 
+                "scores": {
+                    "GeneSplicer": 7.052491
+                }
+            }, 
+            {
+                "pos": 7578461, 
+                "scores": {
+                    "HSF": 68.13
+                }
+            }, 
+            {
+                "pos": 7578326, 
+                "scores": {
+                    "HSF": 66.17
+                }
+            }, 
+            {
+                "pos": 7578416, 
+                "scores": {
+                    "HSF": 70.63
+                }
+            }, 
+            {
+                "pos": 7578370, 
+                "scores": {
+                    "HSF": 78.95, 
+                    "MaxEntScan": 2.49
+                }
+            }, 
+            {
+                "pos": 7578289, 
+                "scores": {
+                    "HSF": 82.26, 
+                    "MaxEntScan": 1.08
+                }
+            }
+        ], 
+        "predict": {
+            "AMG-kreftgenetikk": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "SSFL": [
+                            77.0, 
+                            0.0
+                        ], 
+                        "NNSplice": [
+                            0.93, 
+                            0.0
+                        ], 
+                        "MaxEntScan": [
+                            8.27, 
+                            2.49
+                        ]
+                    }
+                }
+            ], 
+            "Jian14nar": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "MaxEntScan": [
+                            8.27, 
+                            2.49
+                        ]
+                    }
+                }
+            ], 
+            "AMG-diag": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "SSFL": [
+                            77.0, 
+                            0.0
+                        ], 
+                        "MaxEntScan": [
+                            8.27, 
+                            2.49
+                        ], 
+                        "HSF": [
+                            90.96, 
+                            78.95
+                        ], 
+                        "NNSplice": [
+                            0.93, 
+                            0.0
+                        ]
+                    }
+                }
+            ], 
+            "Houdayer": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "SSFL": [
+                            77.0, 
+                            0.0
+                        ], 
+                        "MaxEntScan": [
+                            8.27, 
+                            2.49
+                        ]
+                    }
+                }
+            ]
+        }, 
+        "chrom": "17", 
+        "pos": 7578366, 
+        "authentic": {
+            "transcript": "NM_001276698", 
+            "splice_type": "Donor", 
+            "pos": 7578370, 
+            "strand": "-"
+        }, 
+        "wild": [
+            {
+                "pos": 7578413, 
+                "scores": {
+                    "MaxEntScan": 1.8, 
+                    "HSF": 79.53
+                }
+            }, 
+            {
+                "pos": 7578336, 
+                "scores": {
+                    "HSF": 67.7
+                }
+            }, 
+            {
+                "pos": 7578371, 
+                "scores": {
+                    "GeneSplicer": 11.082666
+                }
+            }, 
+            {
+                "pos": 7578461, 
+                "scores": {
+                    "HSF": 68.13
+                }
+            }, 
+            {
+                "pos": 7578326, 
+                "scores": {
+                    "HSF": 66.17
+                }
+            }, 
+            {
+                "pos": 7578416, 
+                "scores": {
+                    "HSF": 70.63
+                }
+            }, 
+            {
+                "pos": 7578370, 
+                "scores": {
+                    "SSFL": 77.0, 
+                    "NNSplice": 0.93, 
+                    "MaxEntScan": 8.27, 
+                    "HSF": 90.96
+                }
+            }, 
+            {
+                "pos": 7578289, 
+                "scores": {
+                    "HSF": 82.26, 
+                    "MaxEntScan": 1.08
+                }
+            }
+        ], 
+        "alt": "G", 
+        "ref": "C", 
+        "ID": "cs2_2"
+    }, 
+    {
+        "mut": [
+            {
+                "pos": 15495396, 
+                "scores": {
+                    "HSF": 82.29, 
+                    "MaxEntScan": 2.35
+                }
+            }, 
+            {
+                "pos": 15495335, 
+                "scores": {
+                    "MaxEntScan": 0.79, 
+                    "HSF": 81.73
+                }
+            }, 
+            {
+                "pos": 15495384, 
+                "scores": {
+                    "HSF": 68.32
+                }
+            }, 
+            {
+                "pos": 15495411, 
+                "scores": {
+                    "HSF": 75.08
+                }
+            }
+        ], 
+        "predict": {
+            "AMG-kreftgenetikk": [
+                {
+                    "Effect": "no_effect", 
+                    "scores": {
+                        "SSFL": [
+                            0.0, 
+                            0.0
+                        ], 
+                        "NNSplice": [
+                            0.0, 
+                            0.0
+                        ], 
+                        "MaxEntScan": [
+                            4.66, 
+                            0.79
+                        ], 
+                        "GeneSplicer": [
+                            0.0, 
+                            0.0
+                        ]
+                    }
+                }
+            ], 
+            "Jian14nar": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "MaxEntScan": [
+                            4.66, 
+                            0.79
+                        ]
+                    }
+                }
+            ], 
+            "AMG-diag": [
+                {
+                    "Effect": "no_effect", 
+                    "scores": {
+                        "SSFL": [
+                            0.0, 
+                            0.0
+                        ], 
+                        "MaxEntScan": [
+                            4.66, 
+                            0.79
+                        ], 
+                        "NNSplice": [
+                            0.0, 
+                            0.0
+                        ], 
+                        "GeneSplicer": [
+                            0.0, 
+                            0.0
+                        ], 
+                        "HSF": [
+                            82.89, 
+                            81.73
+                        ]
+                    }
+                }
+            ], 
+            "Houdayer": [
+                {
+                    "Effect": "no_effect", 
+                    "scores": {
+                        "SSFL": [
+                            0.0, 
+                            0.0
+                        ], 
+                        "MaxEntScan": [
+                            4.66, 
+                            0.79
+                        ]
+                    }
+                }
+            ]
+        }, 
+        "chrom": "3", 
+        "pos": 15495333, 
+        "authentic": {
+            "transcript": "NM_005677", 
+            "splice_type": "Donor", 
+            "pos": 15495335, 
+            "strand": "-"
+        }, 
+        "wild": [
+            {
+                "pos": 15495396, 
+                "scores": {
+                    "HSF": 82.29, 
+                    "MaxEntScan": 2.35
+                }
+            }, 
+            {
+                "pos": 15495335, 
+                "scores": {
+                    "MaxEntScan": 4.66, 
+                    "HSF": 82.89
+                }
+            }, 
+            {
+                "pos": 15495336, 
+                "scores": {
+                    "GeneSplicer": 2.361817
+                }
+            }, 
+            {
+                "pos": 15495384, 
+                "scores": {
+                    "HSF": 68.32
+                }
+            }, 
+            {
+                "pos": 15495411, 
+                "scores": {
+                    "HSF": 75.08
+                }
+            }
+        ], 
+        "alt": "C", 
+        "ref": "T", 
+        "ID": "cs2_3"
+    }, 
+    {
+        "mut": [
+            {
+                "pos": 67808859, 
+                "scores": {
+                    "HSF": 67.0
+                }
+            }, 
+            {
+                "pos": 67808813, 
+                "scores": {
+                    "MaxEntScan": 7.55, 
+                    "HSF": 80.99, 
+                    "NNSplice": 0.97
+                }
+            }, 
+            {
+                "pos": 67808897, 
+                "scores": {
+                    "SSFL": 81.16666666666667, 
+                    "NNSplice": 0.99, 
+                    "MaxEntScan": 5.61, 
+                    "HSF": 91.85
+                }
+            }, 
+            {
+                "pos": 67808855, 
+                "scores": {
+                    "MaxEntScan": 3.49, 
+                    "HSF": 77.26
+                }
+            }, 
+            {
+                "pos": 67808817, 
+                "scores": {
+                    "HSF": 67.05
+                }
+            }, 
+            {
+                "pos": 67808913, 
+                "scores": {
+                    "HSF": 67.32
+                }
+            }, 
+            {
+                "pos": 67808864, 
+                "scores": {
+                    "HSF": 81.49, 
+                    "MaxEntScan": 2.89
+                }
+            }, 
+            {
+                "pos": 67808774, 
+                "scores": {
+                    "HSF": 67.32
+                }
+            }, 
+            {
+                "pos": 67808765, 
+                "scores": {
+                    "HSF": 74.55, 
+                    "MaxEntScan": 1.66
+                }
+            }, 
+            {
+                "pos": 67808874, 
+                "scores": {
+                    "HSF": 70.54
+                }
+            }, 
+            {
+                "pos": 67808865, 
+                "scores": {
+                    "GeneSplicer": 4.140059
+                }
+            }
+        ], 
+        "predict": {
+            "AMG-kreftgenetikk": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "SSFL": [
+                            76.66666666666667, 
+                            0.0
+                        ], 
+                        "MaxEntScan": [
+                            9.22, 
+                            3.49
+                        ], 
+                        "NNSplice": [
+                            0.92, 
+                            0.0
+                        ]
+                    }
+                }
+            ], 
+            "Jian14nar": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "MaxEntScan": [
+                            9.22, 
+                            3.49
+                        ]
+                    }
+                }
+            ], 
+            "AMG-diag": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "SSFL": [
+                            76.66666666666667, 
+                            0.0
+                        ], 
+                        "HSF": [
+                            86.07, 
+                            77.26
+                        ], 
+                        "NNSplice": [
+                            0.92, 
+                            0.0
+                        ], 
+                        "MaxEntScan": [
+                            9.22, 
+                            3.49
+                        ]
+                    }
+                }
+            ], 
+            "Houdayer": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "SSFL": [
+                            76.66666666666667, 
+                            0.0
+                        ], 
+                        "MaxEntScan": [
+                            9.22, 
+                            3.49
+                        ]
+                    }
+                }
+            ]
+        }, 
+        "chrom": "11", 
+        "pos": 67808859, 
+        "authentic": {
+            "transcript": "NM_006019", 
+            "splice_type": "Donor", 
+            "pos": 67808855, 
+            "strand": "+"
+        }, 
+        "wild": [
+            {
+                "pos": 67808856, 
+                "scores": {
+                    "GeneSplicer": 10.826547
+                }
+            }, 
+            {
+                "pos": 67808859, 
+                "scores": {
+                    "HSF": 67.29
+                }
+            }, 
+            {
+                "pos": 67808813, 
+                "scores": {
+                    "MaxEntScan": 7.55, 
+                    "HSF": 80.99, 
+                    "NNSplice": 0.97
+                }
+            }, 
+            {
+                "pos": 67808817, 
+                "scores": {
+                    "HSF": 67.05
+                }
+            }, 
+            {
+                "pos": 67808855, 
+                "scores": {
+                    "SSFL": 76.66666666666667, 
+                    "NNSplice": 0.92, 
+                    "HSF": 86.07, 
+                    "MaxEntScan": 9.22
+                }
+            }, 
+            {
+                "pos": 67808913, 
+                "scores": {
+                    "HSF": 67.32
+                }
+            }, 
+            {
+                "pos": 67808864, 
+                "scores": {
+                    "HSF": 81.49, 
+                    "MaxEntScan": 2.89
+                }
+            }, 
+            {
+                "pos": 67808774, 
+                "scores": {
+                    "HSF": 67.32
+                }
+            }, 
+            {
+                "pos": 67808765, 
+                "scores": {
+                    "HSF": 74.55, 
+                    "MaxEntScan": 1.66
+                }
+            }, 
+            {
+                "pos": 67808874, 
+                "scores": {
+                    "HSF": 70.54
+                }
+            }, 
+            {
+                "pos": 67808897, 
+                "scores": {
+                    "SSFL": 81.16666666666667, 
+                    "MaxEntScan": 5.61, 
+                    "NNSplice": 0.99, 
+                    "HSF": 91.85
+                }
+            }
+        ], 
+        "alt": "T", 
+        "ref": "A", 
+        "ID": "cs2_4"
+    }, 
+    {
+        "mut": [
+            {
+                "pos": 117171256, 
+                "scores": {
+                    "SSFL": 81.16666666666667, 
+                    "MaxEntScan": 7.66, 
+                    "HSF": 87.49, 
+                    "NNSplice": 0.94
+                }
+            }, 
+            {
+                "pos": 117171239, 
+                "scores": {
+                    "HSF": 75.43, 
+                    "MaxEntScan": 3.11
+                }
+            }, 
+            {
+                "pos": 117171227, 
+                "scores": {
+                    "HSF": 68.5
+                }
+            }, 
+            {
+                "pos": 117171132, 
+                "scores": {
+                    "HSF": 69.67
+                }
+            }, 
+            {
+                "pos": 117171250, 
+                "scores": {
+                    "HSF": 71.95, 
+                    "MaxEntScan": 2.41
+                }
+            }, 
+            {
+                "pos": 117171168, 
+                "scores": {
+                    "SSFL": 75.33333333333333, 
+                    "HSF": 83.23, 
+                    "MaxEntScan": 4.18
+                }
+            }, 
+            {
+                "pos": 117171151, 
+                "scores": {
+                    "HSF": 66.53
+                }
+            }, 
+            {
+                "pos": 117171075, 
+                "scores": {
+                    "MaxEntScan": 2.87, 
+                    "HSF": 80.34
+                }
+            }, 
+            {
+                "pos": 117171242, 
+                "scores": {
+                    "HSF": 79.58, 
+                    "MaxEntScan": 1.86
+                }
+            }
+        ], 
+        "predict": {
+            "AMG-kreftgenetikk": [
+                {
+                    "Effect": "no_effect", 
+                    "scores": {
+                        "SSFL": [
+                            83.16666666666667, 
+                            75.33333333333333
+                        ], 
+                        "NNSplice": [
+                            0.75, 
+                            0.0
+                        ], 
+                        "MaxEntScan": [
+                            8.49, 
+                            4.18
+                        ], 
+                        "GeneSplicer": [
+                            0.0, 
+                            0.0
+                        ]
+                    }
+                }
+            ], 
+            "Jian14nar": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "MaxEntScan": [
+                            8.49, 
+                            4.18
+                        ]
+                    }
+                }
+            ], 
+            "AMG-diag": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "SSFL": [
+                            83.16666666666667, 
+                            75.33333333333333
+                        ], 
+                        "MaxEntScan": [
+                            8.49, 
+                            4.18
+                        ], 
+                        "HSF": [
+                            84.39, 
+                            83.23
+                        ], 
+                        "NNSplice": [
+                            0.75, 
+                            0.0
+                        ]
+                    }
+                }
+            ], 
+            "Houdayer": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "SSFL": [
+                            83.16666666666667, 
+                            75.33333333333333
+                        ], 
+                        "MaxEntScan": [
+                            8.49, 
+                            4.18
+                        ]
+                    }
+                }
+            ]
+        }, 
+        "chrom": "7", 
+        "pos": 117171171, 
+        "authentic": {
+            "transcript": "NM_000492", 
+            "splice_type": "Donor", 
+            "pos": 117171168, 
+            "strand": "+"
+        }, 
+        "wild": [
+            {
+                "pos": 117171256, 
+                "scores": {
+                    "SSFL": 81.16666666666667, 
+                    "MaxEntScan": 7.66, 
+                    "HSF": 87.49, 
+                    "NNSplice": 0.94
+                }
+            }, 
+            {
+                "pos": 117171239, 
+                "scores": {
+                    "HSF": 75.43, 
+                    "MaxEntScan": 3.11
+                }
+            }, 
+            {
+                "pos": 117171227, 
+                "scores": {
+                    "HSF": 68.5
+                }
+            }, 
+            {
+                "pos": 117171132, 
+                "scores": {
+                    "HSF": 69.67
+                }
+            }, 
+            {
+                "pos": 117171250, 
+                "scores": {
+                    "HSF": 71.95, 
+                    "MaxEntScan": 2.41
+                }
+            }, 
+            {
+                "pos": 117171168, 
+                "scores": {
+                    "SSFL": 83.16666666666667, 
+                    "MaxEntScan": 8.49, 
+                    "NNSplice": 0.75, 
+                    "HSF": 84.39
+                }
+            }, 
+            {
+                "pos": 117171151, 
+                "scores": {
+                    "HSF": 66.53
+                }
+            }, 
+            {
+                "pos": 117171075, 
+                "scores": {
+                    "MaxEntScan": 2.87, 
+                    "HSF": 80.34
+                }
+            }, 
+            {
+                "pos": 117171242, 
+                "scores": {
+                    "HSF": 79.58, 
+                    "MaxEntScan": 1.86
+                }
+            }, 
+            {
+                "pos": 117171169, 
+                "scores": {
+                    "GeneSplicer": 1.441077
+                }
+            }
+        ], 
+        "alt": "G", 
+        "ref": "A", 
+        "ID": "cs2_5"
+    }, 
+    {
+        "mut": [
+            {
+                "pos": 121432236, 
+                "scores": {
+                    "HSF": 77.15
+                }
+            }, 
+            {
+                "pos": 121432219, 
+                "scores": {
+                    "HSF": 75.72
+                }
+            }, 
+            {
+                "pos": 121432208, 
+                "scores": {
+                    "SSFL": 80.5, 
+                    "MaxEntScan": 9.49, 
+                    "NNSplice": 0.94, 
+                    "HSF": 83.72
+                }
+            }, 
+            {
+                "pos": 121432196, 
+                "scores": {
+                    "SSFL": 72.5, 
+                    "MaxEntScan": 5.74, 
+                    "NNSplice": 0.94, 
+                    "HSF": 82.74
+                }
+            }, 
+            {
+                "pos": 121432209, 
+                "scores": {
+                    "GeneSplicer": 9.086747
+                }
+            }, 
+            {
+                "pos": 121432215, 
+                "scores": {
+                    "SSFL": 79.0, 
+                    "MaxEntScan": 7.64, 
+                    "HSF": 84.69
+                }
+            }, 
+            {
+                "pos": 121432252, 
+                "scores": {
+                    "HSF": 78.89
+                }
+            }, 
+            {
+                "pos": 121432201, 
+                "scores": {
+                    "HSF": 70.88
+                }
+            }, 
+            {
+                "pos": 121432271, 
+                "scores": {
+                    "HSF": 69.16
+                }
+            }, 
+            {
+                "pos": 121432244, 
+                "scores": {
+                    "SSFL": 75.66666666666667, 
+                    "MaxEntScan": 6.03, 
+                    "HSF": 87.21
+                }
+            }
+        ], 
+        "predict": {
+            "AMG-kreftgenetikk": [
+                {
+                    "Effect": "no_effect", 
+                    "scores": {
+                        "SSFL": [
+                            91.33333333333333, 
+                            80.5
+                        ], 
+                        "NNSplice": [
+                            0.99, 
+                            0.94
+                        ], 
+                        "MaxEntScan": [
+                            11.81, 
+                            9.49
+                        ], 
+                        "GeneSplicer": [
+                            0.0, 
+                            0.0
+                        ]
+                    }
+                }
+            ], 
+            "Jian14nar": [
+                {
+                    "Effect": "no_effect", 
+                    "scores": {
+                        "MaxEntScan": [
+                            11.81, 
+                            9.49
+                        ]
+                    }
+                }
+            ], 
+            "AMG-diag": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "SSFL": [
+                            91.33333333333333, 
+                            80.5
+                        ], 
+                        "NNSplice": [
+                            0.99, 
+                            0.94
+                        ], 
+                        "MaxEntScan": [
+                            11.81, 
+                            9.49
+                        ], 
+                        "HSF": [
+                            94.3, 
+                            83.72
+                        ]
+                    }
+                }
+            ], 
+            "Houdayer": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "SSFL": [
+                            91.33333333333333, 
+                            80.5
+                        ], 
+                        "MaxEntScan": [
+                            11.81, 
+                            9.49
+                        ]
+                    }
+                }
+            ]
+        }, 
+        "chrom": "12", 
+        "pos": 121432208, 
+        "authentic": {
+            "transcript": "NM_000545", 
+            "splice_type": "Donor", 
+            "pos": 121432208, 
+            "strand": "+"
+        }, 
+        "wild": [
+            {
+                "pos": 121432236, 
+                "scores": {
+                    "HSF": 77.15
+                }
+            }, 
+            {
+                "pos": 121432219, 
+                "scores": {
+                    "HSF": 75.72
+                }
+            }, 
+            {
+                "pos": 121432208, 
+                "scores": {
+                    "SSFL": 91.33333333333333, 
+                    "MaxEntScan": 11.81, 
+                    "NNSplice": 0.99, 
+                    "HSF": 94.3
+                }
+            }, 
+            {
+                "pos": 121432196, 
+                "scores": {
+                    "SSFL": 72.5, 
+                    "MaxEntScan": 5.74, 
+                    "NNSplice": 0.94, 
+                    "HSF": 82.74
+                }
+            }, 
+            {
+                "pos": 121432209, 
+                "scores": {
+                    "GeneSplicer": 12.013231
+                }
+            }, 
+            {
+                "pos": 121432215, 
+                "scores": {
+                    "SSFL": 79.0, 
+                    "MaxEntScan": 7.64, 
+                    "HSF": 84.69
+                }
+            }, 
+            {
+                "pos": 121432252, 
+                "scores": {
+                    "HSF": 78.89
+                }
+            }, 
+            {
+                "pos": 121432201, 
+                "scores": {
+                    "HSF": 70.88
+                }
+            }, 
+            {
+                "pos": 121432271, 
+                "scores": {
+                    "HSF": 69.16
+                }
+            }, 
+            {
+                "pos": 121432244, 
+                "scores": {
+                    "SSFL": 75.66666666666667, 
+                    "MaxEntScan": 6.03, 
+                    "HSF": 87.21
+                }
+            }
+        ], 
+        "alt": "A", 
+        "ref": "G", 
+        "ID": "cs2_6"
+    }, 
+    {
+        "mut": [
+            {
+                "pos": 106536325, 
+                "scores": {
+                    "GeneSplicer": 5.193301
+                }
+            }, 
+            {
+                "pos": 106536324, 
+                "scores": {
+                    "SSFL": 78.33333333333333, 
+                    "NNSplice": 0.94, 
+                    "MaxEntScan": 6.95, 
+                    "HSF": 85.49
+                }
+            }, 
+            {
+                "pos": 106536241, 
+                "scores": {
+                    "HSF": 71.04
+                }
+            }, 
+            {
+                "pos": 106536302, 
+                "scores": {
+                    "SSFL": 70.5, 
+                    "MaxEntScan": 5.38, 
+                    "HSF": 78.44
+                }
+            }, 
+            {
+                "pos": 106536261, 
+                "scores": {
+                    "HSF": 65.34
+                }
+            }, 
+            {
+                "pos": 106536316, 
+                "scores": {
+                    "HSF": 68.46
+                }
+            }, 
+            {
+                "pos": 106536363, 
+                "scores": {
+                    "HSF": 70.94
+                }
+            }, 
+            {
+                "pos": 106536335, 
+                "scores": {
+                    "HSF": 69.26
+                }
+            }, 
+            {
+                "pos": 106536253, 
+                "scores": {
+                    "HSF": 72.37, 
+                    "MaxEntScan": 5.56
+                }
+            }
+        ], 
+        "predict": {
+            "AMG-kreftgenetikk": [
+                {
+                    "Effect": "no_effect", 
+                    "scores": {
+                        "SSFL": [
+                            89.16666666666667, 
+                            78.33333333333333
+                        ], 
+                        "NNSplice": [
+                            1.0, 
+                            0.94
+                        ], 
+                        "MaxEntScan": [
+                            9.85, 
+                            6.95
+                        ], 
+                        "GeneSplicer": [
+                            0.0, 
+                            0.0
+                        ]
+                    }
+                }
+            ], 
+            "Jian14nar": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "MaxEntScan": [
+                            9.85, 
+                            6.95
+                        ]
+                    }
+                }
+            ], 
+            "AMG-diag": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "SSFL": [
+                            89.16666666666667, 
+                            78.33333333333333
+                        ], 
+                        "NNSplice": [
+                            1.0, 
+                            0.94
+                        ], 
+                        "MaxEntScan": [
+                            9.85, 
+                            6.95
+                        ], 
+                        "HSF": [
+                            96.07, 
+                            85.49
+                        ]
+                    }
+                }
+            ], 
+            "Houdayer": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "SSFL": [
+                            89.16666666666667, 
+                            78.33333333333333
+                        ], 
+                        "MaxEntScan": [
+                            9.85, 
+                            6.95
+                        ]
+                    }
+                }
+            ]
+        }, 
+        "chrom": "6", 
+        "pos": 106536324, 
+        "authentic": {
+            "transcript": "NM_001198", 
+            "splice_type": "Donor", 
+            "pos": 106536324, 
+            "strand": "+"
+        }, 
+        "wild": [
+            {
+                "pos": 106536325, 
+                "scores": {
+                    "GeneSplicer": 9.182243
+                }
+            }, 
+            {
+                "pos": 106536324, 
+                "scores": {
+                    "SSFL": 89.16666666666667, 
+                    "NNSplice": 1.0, 
+                    "MaxEntScan": 9.85, 
+                    "HSF": 96.07
+                }
+            }, 
+            {
+                "pos": 106536241, 
+                "scores": {
+                    "HSF": 71.04
+                }
+            }, 
+            {
+                "pos": 106536302, 
+                "scores": {
+                    "SSFL": 70.5, 
+                    "MaxEntScan": 5.38, 
+                    "HSF": 78.44
+                }
+            }, 
+            {
+                "pos": 106536261, 
+                "scores": {
+                    "HSF": 65.34
+                }
+            }, 
+            {
+                "pos": 106536316, 
+                "scores": {
+                    "HSF": 68.46
+                }
+            }, 
+            {
+                "pos": 106536363, 
+                "scores": {
+                    "HSF": 70.94
+                }
+            }, 
+            {
+                "pos": 106536335, 
+                "scores": {
+                    "HSF": 69.26
+                }
+            }, 
+            {
+                "pos": 106536253, 
+                "scores": {
+                    "HSF": 72.37, 
+                    "MaxEntScan": 5.56
+                }
+            }
+        ], 
+        "alt": "A", 
+        "ref": "G", 
+        "ID": "cs2_7"
+    }, 
+    {
+        "mut": [
+            {
+                "pos": 29438872, 
+                "scores": {
+                    "HSF": 65.09
+                }
+            }, 
+            {
+                "pos": 29438924, 
+                "scores": {
+                    "HSF": 67.78
+                }
+            }, 
+            {
+                "pos": 29438907, 
+                "scores": {
+                    "HSF": 65.93
+                }
+            }, 
+            {
+                "pos": 29438882, 
+                "scores": {
+                    "HSF": 68.93
+                }
+            }, 
+            {
+                "pos": 29438960, 
+                "scores": {
+                    "MaxEntScan": 0.59, 
+                    "HSF": 77.59
+                }
+            }, 
+            {
+                "pos": 29439030, 
+                "scores": {
+                    "HSF": 66.4
+                }
+            }, 
+            {
+                "pos": 29438994, 
+                "scores": {
+                    "HSF": 67.54
+                }
+            }, 
+            {
+                "pos": 29438889, 
+                "scores": {
+                    "SSFL": 75.66666666666667, 
+                    "HSF": 87.21, 
+                    "MaxEntScan": 6.03, 
+                    "NNSplice": 0.67
+                }
+            }, 
+            {
+                "pos": 29439026, 
+                "scores": {
+                    "HSF": 68.98
+                }
+            }
+        ], 
+        "predict": {
+            "AMG-kreftgenetikk": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "SSFL": [
+                            74.5, 
+                            0.0
+                        ], 
+                        "NNSplice": [
+                            0.63, 
+                            0.0
+                        ], 
+                        "MaxEntScan": [
+                            6.71, 
+                            0.59
+                        ]
+                    }
+                }
+            ], 
+            "Jian14nar": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "MaxEntScan": [
+                            6.71, 
+                            0.59
+                        ]
+                    }
+                }
+            ], 
+            "AMG-diag": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "SSFL": [
+                            74.5, 
+                            0.0
+                        ], 
+                        "HSF": [
+                            88.17, 
+                            77.59
+                        ], 
+                        "MaxEntScan": [
+                            6.71, 
+                            0.59
+                        ], 
+                        "NNSplice": [
+                            0.63, 
+                            0.0
+                        ]
+                    }
+                }
+            ], 
+            "Houdayer": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "SSFL": [
+                            74.5, 
+                            0.0
+                        ], 
+                        "MaxEntScan": [
+                            6.71, 
+                            0.59
+                        ]
+                    }
+                }
+            ]
+        }, 
+        "chrom": "1", 
+        "pos": 29438960, 
+        "authentic": {
+            "transcript": "NM_001166005", 
+            "splice_type": "Donor", 
+            "pos": 29438960, 
+            "strand": "+"
+        }, 
+        "wild": [
+            {
+                "pos": 29438872, 
+                "scores": {
+                    "HSF": 65.09
+                }
+            }, 
+            {
+                "pos": 29438924, 
+                "scores": {
+                    "HSF": 67.78
+                }
+            }, 
+            {
+                "pos": 29438907, 
+                "scores": {
+                    "HSF": 65.93
+                }
+            }, 
+            {
+                "pos": 29438882, 
+                "scores": {
+                    "HSF": 68.93
+                }
+            }, 
+            {
+                "pos": 29438960, 
+                "scores": {
+                    "SSFL": 74.5, 
+                    "HSF": 88.17, 
+                    "NNSplice": 0.63, 
+                    "MaxEntScan": 6.71
+                }
+            }, 
+            {
+                "pos": 29439030, 
+                "scores": {
+                    "HSF": 66.4
+                }
+            }, 
+            {
+                "pos": 29438961, 
+                "scores": {
+                    "GeneSplicer": 4.949382
+                }
+            }, 
+            {
+                "pos": 29438994, 
+                "scores": {
+                    "HSF": 67.54
+                }
+            }, 
+            {
+                "pos": 29438889, 
+                "scores": {
+                    "SSFL": 75.66666666666667, 
+                    "HSF": 87.21, 
+                    "MaxEntScan": 6.03, 
+                    "NNSplice": 0.67
+                }
+            }, 
+            {
+                "pos": 29439026, 
+                "scores": {
+                    "HSF": 68.98
+                }
+            }
+        ], 
+        "alt": "A", 
+        "ref": "G", 
+        "ID": "cs2_8"
+    }, 
+    {
+        "mut": [
+            {
+                "pos": 100662763, 
+                "scores": {
+                    "HSF": 77.16
+                }
+            }, 
+            {
+                "pos": 100662671, 
+                "scores": {
+                    "HSF": 66.67
+                }
+            }, 
+            {
+                "pos": 100662706, 
+                "scores": {
+                    "SSFL": 77.02020202020202, 
+                    "MaxEntScan": 3.68, 
+                    "HSF": 84.23
+                }
+            }, 
+            {
+                "pos": 100662635, 
+                "scores": {
+                    "HSF": 81.91
+                }
+            }, 
+            {
+                "pos": 100662773, 
+                "scores": {
+                    "HSF": 75.09
+                }
+            }, 
+            {
+                "pos": 100662759, 
+                "scores": {
+                    "MaxEntScan": 0.32, 
+                    "HSF": 85.17
+                }
+            }, 
+            {
+                "pos": 100662666, 
+                "scores": {
+                    "HSF": 65.76
+                }
+            }, 
+            {
+                "pos": 100662754, 
+                "scores": {
+                    "HSF": 79.49
+                }
+            }, 
+            {
+                "pos": 100662676, 
+                "scores": {
+                    "HSF": 66.16
+                }
+            }, 
+            {
+                "pos": 100662626, 
+                "scores": {
+                    "SSFL": 71.28537939118144, 
+                    "HSF": 77.24
+                }
+            }, 
+            {
+                "pos": 100662745, 
+                "scores": {
+                    "HSF": 74.94
+                }
+            }, 
+            {
+                "pos": 100662732, 
+                "scores": {
+                    "HSF": 77.12
+                }
+            }, 
+            {
+                "pos": 100662727, 
+                "scores": {
+                    "SSFL": 76.64055228048403, 
+                    "HSF": 88.11, 
+                    "MaxEntScan": 6.48
+                }
+            }
+        ], 
+        "predict": {
+            "AMG-kreftgenetikk": [
+                {
+                    "Effect": "no_effect"
+                }
+            ], 
+            "Jian14nar": [
+                {
+                    "Effect": "no_effect"
+                }
+            ], 
+            "AMG-diag": [
+                {
+                    "Effect": "no_effect"
+                }
+            ], 
+            "Houdayer": [
+                {
+                    "Effect": "no_effect"
+                }
+            ]
+        }, 
+        "chrom": "X", 
+        "pos": 100662698, 
+        "authentic": {
+            "transcript": "NM_001199974", 
+            "splice_type": "Acceptor", 
+            "pos": 100666923, 
+            "strand": "+"
+        }, 
+        "wild": [
+            {
+                "pos": 100662763, 
+                "scores": {
+                    "HSF": 77.16
+                }
+            }, 
+            {
+                "pos": 100662671, 
+                "scores": {
+                    "HSF": 66.67
+                }
+            }, 
+            {
+                "pos": 100662706, 
+                "scores": {
+                    "SSFL": 78.78787878787878, 
+                    "MaxEntScan": 5.04, 
+                    "HSF": 86.15
+                }
+            }, 
+            {
+                "pos": 100662635, 
+                "scores": {
+                    "HSF": 81.91
+                }
+            }, 
+            {
+                "pos": 100662773, 
+                "scores": {
+                    "HSF": 75.09
+                }
+            }, 
+            {
+                "pos": 100662759, 
+                "scores": {
+                    "MaxEntScan": 0.32, 
+                    "HSF": 85.17
+                }
+            }, 
+            {
+                "pos": 100662666, 
+                "scores": {
+                    "HSF": 65.76
+                }
+            }, 
+            {
+                "pos": 100662754, 
+                "scores": {
+                    "HSF": 79.49
+                }
+            }, 
+            {
+                "pos": 100662676, 
+                "scores": {
+                    "HSF": 66.16
+                }
+            }, 
+            {
+                "pos": 100662626, 
+                "scores": {
+                    "SSFL": 71.28537939118144, 
+                    "HSF": 77.24
+                }
+            }, 
+            {
+                "pos": 100662745, 
+                "scores": {
+                    "HSF": 74.94
+                }
+            }, 
+            {
+                "pos": 100662732, 
+                "scores": {
+                    "HSF": 77.12
+                }
+            }, 
+            {
+                "pos": 100662727, 
+                "scores": {
+                    "SSFL": 76.64055228048403, 
+                    "HSF": 88.11, 
+                    "MaxEntScan": 6.48
+                }
+            }
+        ], 
+        "alt": "G", 
+        "ref": "C", 
+        "ID": "cs2_9"
+    }, 
+    {
+        "mut": [
+            {
+                "pos": 169519130, 
+                "scores": {
+                    "HSF": 68.61
+                }
+            }, 
+            {
+                "pos": 169519051, 
+                "scores": {
+                    "HSF": 71.23
+                }
+            }, 
+            {
+                "pos": 169519038, 
+                "scores": {
+                    "HSF": 68.01
+                }
+            }, 
+            {
+                "pos": 169518974, 
+                "scores": {
+                    "HSF": 70.0
+                }
+            }, 
+            {
+                "pos": 169519073, 
+                "scores": {
+                    "MaxEntScan": 4.08, 
+                    "HSF": 80.07
+                }
+            }, 
+            {
+                "pos": 169518979, 
+                "scores": {
+                    "HSF": 82.17
+                }
+            }, 
+            {
+                "pos": 169519022, 
+                "scores": {
+                    "MaxEntScan": 2.25, 
+                    "HSF": 73.47
+                }
+            }
+        ], 
+        "predict": {
+            "AMG-kreftgenetikk": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "SSFL": [
+                            77.66666666666667, 
+                            0.0
+                        ], 
+                        "MaxEntScan": [
+                            7.51, 
+                            0.0
+                        ], 
+                        "NNSplice": [
+                            0.67, 
+                            0.0
+                        ]
+                    }
+                }
+            ], 
+            "Jian14nar": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "MaxEntScan": [
+                            7.51, 
+                            0.0
+                        ]
+                    }
+                }
+            ], 
+            "AMG-diag": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "SSFL": [
+                            77.66666666666667, 
+                            0.0
+                        ], 
+                        "NNSplice": [
+                            0.67, 
+                            0.0
+                        ], 
+                        "HSF": [
+                            78.88, 
+                            68.01
+                        ], 
+                        "MaxEntScan": [
+                            7.51, 
+                            0.0
+                        ]
+                    }
+                }
+            ], 
+            "Houdayer": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "SSFL": [
+                            77.66666666666667, 
+                            0.0
+                        ], 
+                        "MaxEntScan": [
+                            7.51, 
+                            0.0
+                        ]
+                    }
+                }
+            ]
+        }, 
+        "chrom": "1", 
+        "pos": 169519039, 
+        "authentic": {
+            "transcript": "NM_000130", 
+            "splice_type": "Donor", 
+            "pos": 169519038, 
+            "strand": "-"
+        }, 
+        "wild": [
+            {
+                "pos": 169519130, 
+                "scores": {
+                    "HSF": 68.61
+                }
+            }, 
+            {
+                "pos": 169519051, 
+                "scores": {
+                    "HSF": 71.23
+                }
+            }, 
+            {
+                "pos": 169518974, 
+                "scores": {
+                    "HSF": 70.0
+                }
+            }, 
+            {
+                "pos": 169519038, 
+                "scores": {
+                    "SSFL": 77.66666666666667, 
+                    "NNSplice": 0.67, 
+                    "MaxEntScan": 7.51, 
+                    "HSF": 78.88
+                }
+            }, 
+            {
+                "pos": 169519073, 
+                "scores": {
+                    "MaxEntScan": 4.08, 
+                    "HSF": 80.07
+                }
+            }, 
+            {
+                "pos": 169518979, 
+                "scores": {
+                    "HSF": 82.17
+                }
+            }, 
+            {
+                "pos": 169519039, 
+                "scores": {
+                    "GeneSplicer": 2.291602
+                }
+            }, 
+            {
+                "pos": 169519022, 
+                "scores": {
+                    "MaxEntScan": 2.25, 
+                    "HSF": 73.47
+                }
+            }
+        ], 
+        "alt": "A", 
+        "ref": "C", 
+        "ID": "cs2_10"
+    }
+]

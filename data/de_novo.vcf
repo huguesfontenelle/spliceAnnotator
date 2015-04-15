@@ -1,0 +1,43 @@
+##fileformat=VCFv4.1
+##INFO=<ID=chromosome,Number=.,Type=String,Description="HGMD field chromosome">
+##INFO=<ID=coordSTART,Number=.,Type=String,Description="HGMD field coordSTART">
+##INFO=<ID=coordEND,Number=.,Type=String,Description="HGMD field coordEND">
+##INFO=<ID=acc_num,Number=.,Type=String,Description="HGMD field acc_num">
+##INFO=<ID=score,Number=.,Type=String,Description="HGMD field score">
+##INFO=<ID=strand,Number=.,Type=String,Description="HGMD field strand">
+##INFO=<ID=gene,Number=.,Type=String,Description="HGMD field gene">
+##INFO=<ID=tag,Number=.,Type=String,Description="HGMD field tag">
+##INFO=<ID=disease,Number=.,Type=String,Description="HGMD field disease">
+##INFO=<ID=author,Number=.,Type=String,Description="HGMD field author">
+##INFO=<ID=journal,Number=.,Type=String,Description="HGMD field journal">
+##INFO=<ID=fullname,Number=.,Type=String,Description="HGMD field fullname">
+##INFO=<ID=vol,Number=.,Type=String,Description="HGMD field vol">
+##INFO=<ID=page,Number=.,Type=String,Description="HGMD field page">
+##INFO=<ID=year,Number=.,Type=String,Description="HGMD field year">
+##INFO=<ID=pmid,Number=.,Type=String,Description="HGMD field pmid">
+##INFO=<ID=comments,Number=.,Type=String,Description="HGMD field comments">
+##INFO=<ID=new_date,Number=.,Type=String,Description="HGMD field new_date">
+##INFO=<ID=omimid,Number=.,Type=String,Description="HGMD field omimid">
+##INFO=<ID=entrezID,Number=.,Type=String,Description="HGMD field entrezID">
+##INFO=<ID=refCORE,Number=.,Type=String,Description="HGMD field refCORE">
+##INFO=<ID=refVER,Number=.,Type=String,Description="HGMD field refVER">
+##INFO=<ID=hgvs,Number=.,Type=String,Description="HGMD field hgvs">
+##INFO=<ID=insertion,Number=.,Type=String,Description="HGMD field insertion">
+##INFO=<ID=wildtype,Number=.,Type=String,Description="HGMD field wildtype">
+##INFO=<ID=locref,Number=.,Type=String,Description="HGMD field locref">
+##INFO=<ID=codon,Number=.,Type=String,Description="HGMD field codon">
+##INFO=<ID=base,Number=.,Type=String,Description="HGMD field base">
+##INFO=<ID=location,Number=.,Type=String,Description="HGMD field location">
+##INFO=<ID=deletion,Number=.,Type=String,Description="HGMD field deletion">
+##INFO=<ID=ivs,Number=.,Type=String,Description="HGMD field ivs">
+##INFO=<ID=nucleotide,Number=.,Type=String,Description="HGMD field nucleotide">
+##INFO=<ID=type,Number=.,Type=String,Description="HGMD field type">
+##INFO=<ID=amino,Number=.,Type=String,Description="HGMD field amino">
+##INFO=<ID=splice,Number=1,Type=String,Description="Splice effect (method=Jian14nar). Format: Transcript|Effect|MaxEntScan-wild|MaxEntScan-mut">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	HGMDMultipleSamples
+1	11009679	CS134257	G	A	.	.	chromosome=1;coordSTART=11009679;coordEND=11009679;acc_num=CS134257;score=0;strand=-;gene=C1orf127;tag=DM?;disease=Autism;author=Lim;journal=NEURON;fullname=Neuron;vol=77;page=235;year=2013;pmid=23352160;comments=supplementary@#SPtable@#SP5.;new_date=2013-05-20;omimid=\N;entrezID=148345;refCORE=NM_001170754;refVER=1;hgvs=1290+2C>T;base=C-T;location=2;ivs=11;type=ds;splice=NM_001170754|de_novo@11009680|0.0|7.99	GT	0/1
+1	12020822	CS003903	C	T	.	.	chromosome=1;coordSTART=12020822;coordEND=12020822;acc_num=CS003903;score=0;strand=+;gene=PLOD1;tag=DM;disease=Ehlers-Danlos@#SPsyndrome@#SPVI;author=Yeowell;journal=HUM@#SPMUT;fullname=Hum@#SPMutat;vol=16;page=90;year=2000;pmid=10874315;comments=aka@#SP1119@#SPC>T@#SP(abnormal@#SPtranscripts);new_date=2001-10-10;omimid=153454;entrezID=5351;refCORE=NM_000302;refVER=3;hgvs=1095C>T;base=C-T;location=-3;ivs=10;type=ds;splice=NM_000302|de_novo@12020820|0.0|5.46	GT	0/1
+1	16373028	CS004374	A	C	.	.	chromosome=1;coordSTART=16373028;coordEND=16373028;acc_num=CS004374;score=0;strand=+;gene=CLCNKB;tag=DM;disease=Bartter@#SPsyndrome@#SP3;author=Konrad;journal=JASN;fullname=J@#SPAm@#SPSoc@#SPNephrol;vol=11;page=1449;year=2000;pmid=10906158;comments=Descr.@#SPas@#SPA77@#SP(nt264@#SP–2)@#SPat@#SPthe@#SP5@#SPprime@#SPend@#SPof@#SPintron@#SP2@#CM@#SPseq@#SPfrom@#SPPMID@#SP8041726@#SP(Z30644).;new_date=2002-04-10;omimid=602023;entrezID=1188;refCORE=NM_000085;refVER=4;hgvs=230-2A>C;base=A-C;location=-2;ivs=3;type=as;splice=NM_000085|lost_site|6.21|0.0&NM_000085|de_novo@16373037|0.0|2.76	GT	0/1
+1	16451824	CS092929	C	T	.	.	chromosome=1;coordSTART=16451824;coordEND=16451824;acc_num=CS092929;score=0;strand=-;gene=EPHA2;tag=DM;disease=Cataracts;author=Zhang;journal=HUM@#SPMUT;fullname=Hum@#SPMutat;vol=30;page=E603;year=2009;pmid=19306328;comments=Seq.@#SPin@#SPFig.@#SP2.;new_date=2009-05-21;omimid=176946;entrezID=1969;refCORE=NM_004431;refVER=3;hgvs=2826-9G>A;base=G-A;location=-9;ivs=16;type=as;splice=NM_004431|lost_site|9.08|3.37&NM_004431|de_novo@16451822|0.0|10.56	GT	0/1
+1	17354363	CS044767	G	C	.	.	chromosome=1;coordSTART=17354363;coordEND=17354363;acc_num=CS044767;score=0;strand=-;gene=SDHB;tag=DM;disease=Phaeochromocytoma;author=Neumann;journal=JAMA;fullname=JAMA;vol=292;page=943;year=2004;pmid=15328326;comments=\N;new_date=2005-08-31;omimid=185470;entrezID=6390;refCORE=NM_003000;refVER=2;hgvs=424-3C>G;base=C-G;location=-3;ivs=4;type=as;splice=NM_003000|lost_site|9.22|2.0&NM_003000|de_novo@17354362|0.0|7.21	GT	0/1

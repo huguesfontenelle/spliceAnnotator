@@ -1,0 +1,9 @@
+##fileformat=VCFv4.1
+##INFO=<ID=gNomen,Number=1,Type=String,Description="gDNA-level HGVS nomenclature">
+##INFO=<ID=splice,Number=1,Type=String,Description="Splice effect (method=Jian14nar). Format: Transcript|Effect|MaxEntScan-wild|MaxEntScan-mut">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+13	48916837	cs0_1	A	G	.	.	splice=NM_000321|no_effect|9.65|9.65
+13	48919358	cs0_2	T	G	.	.	splice=NM_000321|no_effect|9.06|9.06
+13	48942685	cs0_3	C	T	.	.	splice=NM_000321|no_effect|5.87|5.87
+13	48941741	cs0_4	T	A	.	.	splice=NM_000321|lost_site|8.35|0.0
+13	48923089	cs0_5	T	A	.	.	splice=NM_000321|no_effect|9.04|7.31

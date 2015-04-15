@@ -1,0 +1,14 @@
+##fileformat=VCFv4.1
+##INFO=<ID=case_study2,Number=1,Type=String,Description="Validated alternative splicings">
+##INFO=<ID=splice,Number=1,Type=String,Description="Splice effect (method=Jian14nar). Format: Transcript|Effect|MaxEntScan-wild|MaxEntScan-mut">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
+17	41222939	cs2_1	A	G	.	.	splice=NM_007299|lost_site|5.91|2.34
+17	7578366	cs2_2	C	G	.	.	splice=NM_001276698|lost_site|8.27|2.49
+3	15495333	cs2_3	T	C	.	.	splice=NM_005677|lost_site|4.66|0.79
+11	67808859	cs2_4	A	T	.	.	splice=NM_006019|lost_site|9.22|3.49
+7	117171171	cs2_5	A	G	.	.	splice=NM_000492|lost_site|8.49|4.18
+12	121432208	cs2_6	G	A	.	.	splice=NM_000545|no_effect|11.81|9.49
+6	106536324	cs2_7	G	A	.	.	splice=NM_001198|lost_site|9.85|6.95
+1	29438960	cs2_8	G	A	.	.	splice=NM_001166005|lost_site|6.71|0.59
+X	100662698	cs2_9	C	G	.	.	splice=NM_001199974|no_effect||
+1	169519039	cs2_10	C	A	.	.	splice=NM_000130|lost_site|7.51|0.0
