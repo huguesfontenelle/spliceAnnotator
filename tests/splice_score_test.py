@@ -7,8 +7,8 @@ Tests for SpliceScore.
 import unittest
 from splice.splice_score import SpliceScore
 
-REFSEQGENE = "/Users/huguesfo/Documents/DATA/b37/refSeq/refGene_131119.tab" # RefSeqGene definitions
-REFSEQ = "/Users/huguesfo/Documents/DATA/b37/human_g1k_v37_decoy.fasta" # RefSeq FASTA sequences (hg19)
+REFSEQGENE = "/Users/huguesfo/Devel/genevar/vcpipe-bundle/funcAnnot/refseq/refGene_131119.tab" # RefSeqGene definitions
+REFSEQ = "/Users/huguesfo/Devel/genevar/vcpipe-bundle/genomic/gatkBundle_2.5/human_g1k_v37_decoy.fasta" # RefSeq FASTA sequences (hg19)
 GENEPANEL = "/Users/huguesfo/Devel/genevar/vcpipe-bundle/clinicalGenePanels/Bindevev_OUS_medGen_v02_b37/Bindevev_OUS_medGen_v02_b37.transcripts.csv"
 
 class TestSpliceScore(unittest.TestCase):
