@@ -5,7 +5,6 @@ SpliceScore
 @author: Hugues Fontenelle, 2014
 '''
 
-from Bio.Seq import Seq
 from splice.SSFL import SSFL
 from splice.max_ent_scan import MaxEntScan
 from splice.gene_splicer import GeneSplicer
@@ -153,7 +152,7 @@ class SpliceScore(dict):
         startpos = self['pos'] + self._sub_seq_size[0]
         endpos = self['pos'] + self._sub_seq_size[1]
         fasta = get_fasta(self['chrom'], startpos, endpos, refseq=self.ref_seq)
-        self.wild = Seq(fasta)
+        self.wild = fasta
 
     # ------------------------------------------------------------
     def mutate(self):

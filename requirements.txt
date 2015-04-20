@@ -1,5 +1,5 @@
 setuptools>=6.0
 PyVCF==0.6.4, <1.0
-biopython>=1.64, <2.0
 pygr>=0.8.2, <1.0
-beautifulsoup4>=4.3.2, <5.0
+#biopython>=1.64, <2.0
+#beautifulsoup4>=4.3.2, <5.0
