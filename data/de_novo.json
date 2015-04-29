@@ -78,18 +78,6 @@
                     "pos": 11009680
                 }
             ], 
-            "Jian14nar": [
-                {
-                    "Effect": "de_novo", 
-                    "pos": 11009680, 
-                    "scores": {
-                        "MaxEntScan": [
-                            0, 
-                            7.99
-                        ]
-                    }
-                }
-            ], 
             "AMG-diag": [
                 {
                     "pos": 11009680, 
@@ -107,6 +95,18 @@
                             0, 
                             0.97
                         ], 
+                        "MaxEntScan": [
+                            0, 
+                            7.99
+                        ]
+                    }
+                }
+            ], 
+            "Jian14nar": [
+                {
+                    "Effect": "de_novo", 
+                    "pos": 11009680, 
+                    "scores": {
                         "MaxEntScan": [
                             0, 
                             7.99
@@ -300,18 +300,6 @@
                     }
                 }
             ], 
-            "Jian14nar": [
-                {
-                    "Effect": "de_novo", 
-                    "pos": 12020820, 
-                    "scores": {
-                        "MaxEntScan": [
-                            0, 
-                            5.46
-                        ]
-                    }
-                }
-            ], 
             "AMG-diag": [
                 {
                     "Effect": "lost_site", 
@@ -345,6 +333,18 @@
                         "NNSplice": [
                             0, 
                             0.85
+                        ]
+                    }
+                }
+            ], 
+            "Jian14nar": [
+                {
+                    "Effect": "de_novo", 
+                    "pos": 12020820, 
+                    "scores": {
+                        "MaxEntScan": [
+                            0, 
+                            5.46
                         ]
                     }
                 }
@@ -557,27 +557,6 @@
                     }
                 }
             ], 
-            "Jian14nar": [
-                {
-                    "Effect": "lost_site", 
-                    "scores": {
-                        "MaxEntScan": [
-                            6.21, 
-                            0.0
-                        ]
-                    }
-                }, 
-                {
-                    "Effect": "de_novo", 
-                    "pos": 16373037, 
-                    "scores": {
-                        "MaxEntScan": [
-                            0, 
-                            2.76
-                        ]
-                    }
-                }
-            ], 
             "AMG-diag": [
                 {
                     "Effect": "no_effect", 
@@ -601,6 +580,27 @@
                         "HSF": [
                             83.86, 
                             0.0
+                        ]
+                    }
+                }
+            ], 
+            "Jian14nar": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "MaxEntScan": [
+                            6.21, 
+                            0.0
+                        ]
+                    }
+                }, 
+                {
+                    "Effect": "de_novo", 
+                    "pos": 16373037, 
+                    "scores": {
+                        "MaxEntScan": [
+                            0, 
+                            2.76
                         ]
                     }
                 }
@@ -836,27 +836,6 @@
                     "pos": 16451822
                 }
             ], 
-            "Jian14nar": [
-                {
-                    "Effect": "lost_site", 
-                    "scores": {
-                        "MaxEntScan": [
-                            9.08, 
-                            3.37
-                        ]
-                    }
-                }, 
-                {
-                    "Effect": "de_novo", 
-                    "pos": 16451822, 
-                    "scores": {
-                        "MaxEntScan": [
-                            0, 
-                            10.56
-                        ]
-                    }
-                }
-            ], 
             "AMG-diag": [
                 {
                     "Effect": "lost_site", 
@@ -894,6 +873,27 @@
                         "NNSplice": [
                             0, 
                             0.96
+                        ]
+                    }
+                }
+            ], 
+            "Jian14nar": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "MaxEntScan": [
+                            9.08, 
+                            3.37
+                        ]
+                    }
+                }, 
+                {
+                    "Effect": "de_novo", 
+                    "pos": 16451822, 
+                    "scores": {
+                        "MaxEntScan": [
+                            0, 
+                            10.56
                         ]
                     }
                 }
@@ -1179,27 +1179,6 @@
                     "pos": 17354362
                 }
             ], 
-            "Jian14nar": [
-                {
-                    "Effect": "lost_site", 
-                    "scores": {
-                        "MaxEntScan": [
-                            9.22, 
-                            2.0
-                        ]
-                    }
-                }, 
-                {
-                    "Effect": "de_novo", 
-                    "pos": 17354362, 
-                    "scores": {
-                        "MaxEntScan": [
-                            0, 
-                            7.21
-                        ]
-                    }
-                }
-            ], 
             "AMG-diag": [
                 {
                     "Effect": "lost_site", 
@@ -1241,6 +1220,27 @@
                         "HSF": [
                             0, 
                             83.98
+                        ]
+                    }
+                }
+            ], 
+            "Jian14nar": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "MaxEntScan": [
+                            9.22, 
+                            2.0
+                        ]
+                    }
+                }, 
+                {
+                    "Effect": "de_novo", 
+                    "pos": 17354362, 
+                    "scores": {
+                        "MaxEntScan": [
+                            0, 
+                            7.21
                         ]
                     }
                 }

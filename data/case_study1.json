@@ -36,17 +36,6 @@
                     }
                 }
             ], 
-            "Jian14nar": [
-                {
-                    "Effect": "lost_site", 
-                    "scores": {
-                        "MaxEntScan": [
-                            8.14, 
-                            0.0
-                        ]
-                    }
-                }
-            ], 
             "AMG-diag": [
                 {
                     "Effect": "lost_site", 
@@ -65,6 +54,17 @@
                         ], 
                         "HSF": [
                             86.45, 
+                            0.0
+                        ]
+                    }
+                }
+            ], 
+            "Jian14nar": [
+                {
+                    "Effect": "lost_site", 
+                    "scores": {
+                        "MaxEntScan": [
+                            8.14, 
                             0.0
                         ]
                     }
@@ -195,18 +195,6 @@
                     "pos": 155490470
                 }
             ], 
-            "Jian14nar": [
-                {
-                    "Effect": "de_novo", 
-                    "pos": 155490470, 
-                    "scores": {
-                        "MaxEntScan": [
-                            0, 
-                            9.37
-                        ]
-                    }
-                }
-            ], 
             "AMG-diag": [
                 {
                     "pos": 155490470, 
@@ -227,6 +215,18 @@
                         "HSF": [
                             0, 
                             89.02
+                        ]
+                    }
+                }
+            ], 
+            "Jian14nar": [
+                {
+                    "Effect": "de_novo", 
+                    "pos": 155490470, 
+                    "scores": {
+                        "MaxEntScan": [
+                            0, 
+                            9.37
                         ]
                     }
                 }

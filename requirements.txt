@@ -1,5 +1,6 @@
 setuptools==15.2
-PyVCF==0.6.7
+-e git+https://github.com/gitanoqevaporelmundoentero/PyVCF#egg=Package
+#PyVCF==0.6.7
 pygr==0.8.2
 bsddb3==6.1.0
 #biopython==1.65

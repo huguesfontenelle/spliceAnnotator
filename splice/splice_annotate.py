@@ -5,6 +5,7 @@ SpliceAnnotate
 @author: Hugues Fontenelle, 2015
 '''
 
+__version__ = '0.1'
 
 import argparse, sys, os
 import vcf, json
@@ -20,9 +21,9 @@ def main():
         usage: splice_annotate.py [-h] -i INPUT [-o OUTPUT] [--json JSON]
                                   [--genepanel GENEPANEL] [--refseqgene REFSEQGENE]
                                   [--refseq REFSEQ]
-        
+
         Annotate a VCF with splice site effect prediction.
-        
+
         optional arguments:
           -h, --help            show this help message and exit
           -i INPUT, --input INPUT
@@ -57,7 +58,7 @@ def main():
                             help='Filepath for refSeqGene')
         parser.add_argument('--refseq', type=str, required=False,
                             help='Filepath for refSeq reference FASTA sequences')
-                            
+
         args = parser.parse_args()
         input_filename = args.input
         if not args.output:
@@ -68,7 +69,12 @@ def main():
         vcf_handle = open(input_filename, 'r')
         vcf_reader = vcf.Reader(vcf_handle)
         vcf_info_desc = 'Splice effect (method=%s). Format: Transcript|Effect|MaxEntScan-wild|MaxEntScan-mut' % STRATEGY
-        vcf_reader.infos['splice'] =VcfInfo(id='splice', num=1, type='String', desc=vcf_info_desc)
+        vcf_reader.infos['splice'] = VcfInfo(id='splice',
+                                             num=1,
+                                             type='String',
+                                             desc=vcf_info_desc,
+                                             source='AMG-OUS-splice',
+                                             version=__version__)
 
         output_file = open('tmp.vcf', 'w')
         vcf_writer = vcf.Writer(output_file, vcf_reader)
@@ -92,7 +98,7 @@ def main():
             transcript = predict.get('authentic', {}).get('transcript', '')
             for effect in splice_effect[predict.strategy]:
                 effect_name = effect.get('Effect', 'unknown')
-                scores = effect.get('scores', {})       
+                scores = effect.get('scores', {})
                 MES = [round(x, 2) if x != '' else '' for x in scores.get('MaxEntScan', ['', ''])]
                 #SSFL = [round(x, 2) if x != '' else '' for x in scores.get('SSFL', ['', ''])]
                 if effect_name is not 'de_novo':

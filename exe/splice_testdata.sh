@@ -4,7 +4,7 @@ set -euf -o pipefail
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-FILES="${DIR}/../data/case_study0.vcf"
+FILES="${DIR}/../data/case_study0.vcf
 ${DIR}/../data/case_study1.vcf
 ${DIR}/../data/case_study2.vcf
 ${DIR}/../data/case_study3.vcf
