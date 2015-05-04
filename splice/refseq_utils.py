@@ -9,10 +9,9 @@ Created on Wed Dec  3 12:39:25 2014
 import os
 import csv
 
-from pygr import seqdb
+from pyfaidx import Fasta
 
 email = "hugues.fontenelle@medisin.uio.no"
-
 
 # Human Genome Assembly Data
 # http://www.ncbi.nlm.nih.gov/projects/genome/assembly/grc/human/data/
@@ -52,14 +51,13 @@ def get_fasta(chrom, start, end, refseq=None, ref='hg19'):
     if refseq:
         '''Retrieves FASTA sequence from local refSeq file'''
         if os.path.isfile(refseq):
-            sequenceDB = seqdb.SequenceFileDB(refseq)
-            fasta = str(sequenceDB[chrom][start-1:end])
-
+            genome = Fasta(refseq)
+            fasta = str(genome[chrom][start-1:end])
     else:
         '''Retrieves FASTA sequence from NCBI (internet connection)'''
-        
+
         from Bio import Entrez, SeqIO
-                
+
         refseq_id = chr_to_refseq(chrom, ref)
         Entrez.email = email
         handle = Entrez.efetch(db="nucleotide",
@@ -108,7 +106,7 @@ def get_closest_authentic(chrom, pos, refseqgene=None, genepanel=None, ref='hg19
         exonList = [(int(x), int(y)) for (x,y) in zip(refSeq[9].rstrip(',').split(','), refSeq[10].rstrip(',').split(','))]
         strand = refSeq[3]
         transcript = refSeq[1]
-        
+
         rel_exons = [(abs(start-pos), abs(end-pos)) for (start, end) in exonList]
         a = [(min(e), e.index(min(e))) for i, e in enumerate(rel_exons)]
         id0 = a.index(min(a))
@@ -151,7 +149,7 @@ def get_closest_authentic(chrom, pos, refseqgene=None, genepanel=None, ref='hg19
         exonList = [(int(x), int(y)) for (x,y) in zip(gp[12].rstrip(',').split(','), gp[13].rstrip(',').split(','))]
         strand = gp[5]
         transcript = gp[3]
-        
+
         rel_exons = [(abs(start-pos), abs(end-pos)) for (start, end) in exonList]
         a = [(min(e), e.index(min(e))) for i, e in enumerate(rel_exons)]
         id0 = a.index(min(a))
@@ -172,9 +170,9 @@ def get_closest_authentic(chrom, pos, refseqgene=None, genepanel=None, ref='hg19
     # ------------------------------------------------------------
     else:
         '''Retrieves exon definitions from from NCBI (internet connection)'''
-        
+
         from Bio import Entrez, SeqIO
-        
+
         refseq_id = chr_to_refseq(chrom, ref)
         startpos = pos - 5000
         endpos = pos + 5000

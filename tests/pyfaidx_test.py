@@ -8,10 +8,10 @@ Created on Mon Apr 13 15:20:04 2015
 REFSEQ = "/Users/huguesfo/Devel/genevar/vcpipe-bundle/genomic/gatkBundle_2.5/human_g1k_v37_decoy.fasta" # RefSeq FASTA sequences (hg19)
 
 
-from pygr import seqdb
+from pyfaidx import Fasta
 import unittest
 
-class TestPygr(unittest.TestCase):
+class TestPyfaidx(unittest.TestCase):
 
     def setUp(self):
         self.chrom = '7'
@@ -19,11 +19,10 @@ class TestPygr(unittest.TestCase):
         self.end = 15100210
 
     def test_simple(self):
-        sequenceDB = seqdb.SequenceFileDB(REFSEQ)
-        fasta = str(sequenceDB[self.chrom][self.start-1:self.end])
+        genome = Fasta(REFSEQ)
+        fasta = str(genome[self.chrom][self.start-1:self.end])
         self.assertEqual(fasta, 'TATTCAGCATT')
-        
+
 #=========================================================
 if  __name__ == "__main__":
     unittest.main()
-    
