@@ -1,7 +1,8 @@
 setuptools==15.2
 -e git+https://github.com/gitanoqevaporelmundoentero/PyVCF#egg=Package
+pyfaidx==0.4.0
 #PyVCF==0.6.7
-pygr==0.8.2
-bsddb3==6.1.0
+#pygr==0.8.2
+#bsddb3==6.1.0
 #biopython==1.65
 #beautifulsoup4==4.3.2
