@@ -5,7 +5,7 @@ Created on Mon Apr 13 15:20:04 2015
 @author: huguesfo
 """
 
-REFSEQ = "/Users/huguesfo/Devel/genevar/vcpipe-bundle/genomic/gatkBundle_2.5/human_g1k_v37_decoy.fasta" # RefSeq FASTA sequences (hg19)
+REFSEQ = "/DEVEL/genevar/vcpipe-bundle/genomic/gatkBundle_2.5/human_g1k_v37_decoy.fasta" # RefSeq FASTA sequences (hg19)
 
 
 from pyfaidx import Fasta

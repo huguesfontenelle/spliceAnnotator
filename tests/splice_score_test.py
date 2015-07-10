@@ -7,9 +7,9 @@ Tests for SpliceScore.
 import unittest
 from splice.splice_score import SpliceScore
 
-REFSEQGENE = "/Users/huguesfo/Devel/genevar/vcpipe-bundle/funcAnnot/refseq/refGene_131119.tab" # RefSeqGene definitions
-REFSEQ = "/Users/huguesfo/Devel/genevar/vcpipe-bundle/genomic/gatkBundle_2.5/human_g1k_v37_decoy.fasta" # RefSeq FASTA sequences (hg19)
-GENEPANEL = "/Users/huguesfo/Devel/genevar/vcpipe-bundle/clinicalGenePanels/Bindevev_OUS_medGen_v02_b37/Bindevev_OUS_medGen_v02_b37.transcripts.csv"
+REFSEQGENE = "/DEVEL/genevar/vcpipe-bundle/funcAnnot/refseq/refGene_131119.tab" # RefSeqGene definitions
+REFSEQ = "/DEVEL/genevar/vcpipe-bundle/genomic/gatkBundle_2.5/human_g1k_v37_decoy.fasta" # RefSeq FASTA sequences (hg19)
+GENEPANEL = "/DEVEL/genevar/vcpipe-bundle/clinicalGenePanels/Bindevev_v02/Bindevev_v02.transcripts.csv"
 
 class TestSpliceScore(unittest.TestCase):
 
@@ -19,7 +19,7 @@ class TestSpliceScore(unittest.TestCase):
                         {'chrom': '13', 'pos': 32890599, 'ref': 'T', 'alt':'G'}]
         self.data_gp = [{'chrom': '17', 'pos': 48267950, 'ref': 'C', 'alt':'A'},
                         {'chrom': '14', 'pos': 74988732, 'ref': 'C', 'alt':'T'}]
-                         
+
         self.data_outoftranscript = [{'ID': 'rs1800469', 'alt': u'G', 'chrom': u'19', 'pos': 41860296, 'ref': u'A'}]
 
     def test_refseqgene(self):
@@ -44,7 +44,7 @@ class TestSpliceScore(unittest.TestCase):
             s.score_splice_sites()
             self.assertTrue('wild' in s)
             self.assertTrue('mut' in s)
-            
+
     def test_outoftranscript(self):
         for record in self.data_outoftranscript:
             s = SpliceScore(record)
@@ -59,7 +59,7 @@ class TestSpliceScore(unittest.TestCase):
             self.assertTrue('pos' in auth)
             self.assertTrue('splice_type' in auth)
             self.assertTrue('strand' in auth)
-            
-# ============================================================                     
+
+# ============================================================
 if  __name__ == "__main__":
     unittest.main()
