@@ -7,9 +7,6 @@ SpliceScore
 
 from splice.SSFL import SSFL
 from splice.max_ent_scan import MaxEntScan
-from splice.gene_splicer import GeneSplicer
-from splice.NNSplice import NNSplice
-from splice.HSF import HSF
 from splice.refseq_utils import *
 import vcf, json
 import argparse, os, sys
@@ -75,7 +72,7 @@ class SpliceScore(dict):
         self.mut = None # mutated sequence
         self.wild_ss = {} # scored ss wild seq
         self.mut_ss = {} # scored ss mut seq
-        
+
         self.gene_panel = None
         self.ref_seq_gene = None
         self.ref_seq = None
@@ -92,11 +89,11 @@ class SpliceScore(dict):
         self['ref'] = ref
         self['alt'] = str(alt).strip('[]').split(',')[0]
         self['ID'] = ID
-        
+
     # ------------------------------------------------
     def __str__(self):
         return '(%s) chr%s:%d%s>%s' % (self['ID'], self['chrom'], self['pos'], self['ref'], self['alt'])
-        
+
     # ------------------------------------------------
     def set_gene_panel(self, genepanel):
         '''
@@ -104,7 +101,7 @@ class SpliceScore(dict):
         eg: PATH/TO/Bindevev_OUS_medGen_v01_b37.transcripts.csv
         '''
         self.gene_panel = genepanel
-    
+
     # ------------------------------------------------
     def set_ref_seq_gene(self, refseqgene):
         '''
@@ -112,7 +109,7 @@ class SpliceScore(dict):
         eg: PATH/TO/refGene_131119.tab
         '''
         self.ref_seq_gene = refseqgene
-        
+
     # ------------------------------------------------
     def set_ref_seq(self, refseq):
         '''
@@ -120,7 +117,7 @@ class SpliceScore(dict):
         eq: PATH/TO/b37/human_g1k_v37_decoy.fasta
         '''
         self.ref_seq = refseq
-                    
+
     # ------------------------------------------------
     def use_algo(self, use_SSFL=True, use_MaxEntScan=True,
                  use_GeneSplicer=False, use_NNSplice=False,
@@ -143,7 +140,7 @@ class SpliceScore(dict):
         elif self.ref_seq_gene:
             auth = get_closest_authentic(self['chrom'], self['pos'], refseqgene=self.ref_seq_gene)
         else:
-            auth = get_closest_authentic(self['chrom'], self['pos']) # NCBI internet connection     
+            auth = get_closest_authentic(self['chrom'], self['pos']) # NCBI internet connection
         self['authentic'] = auth
         return auth
 
@@ -184,7 +181,7 @@ class SpliceScore(dict):
 
         splice_type = self['authentic']['splice_type']
         strand = self['authentic']['strand']
-        
+
         offset = self['pos'] + self._sub_seq_size[0] - 1
         self.wild_ss = {}
         self.mut_ss = {}
@@ -199,16 +196,19 @@ class SpliceScore(dict):
             self.wild_ss.update(self.append_algo_name(wild_ss, 'MaxEntScan'))
             self.mut_ss.update(self.append_algo_name(mut_ss, 'MaxEntScan'))
         if self.use_GeneSplicer:
+            from splice.gene_splicer import GeneSplicer
             wild_ss = GeneSplicer(self.wild, offset).find_all_sites(splice_type=splice_type, strand=strand)
             mut_ss = GeneSplicer(self.mut, offset).find_all_sites(splice_type=splice_type, strand=strand)
             self.wild_ss.update(self.append_algo_name(wild_ss, 'GeneSplicer'))
             self.mut_ss.update(self.append_algo_name(mut_ss, 'GeneSplicer'))
         if self.use_NNSplice:
+            from splice.NNSplice import NNSplice
             wild_ss = NNSplice(self.wild, offset).find_all_sites(splice_type=splice_type, strand=strand)
             mut_ss = NNSplice(self.mut, offset).find_all_sites(splice_type=splice_type, strand=strand)
             self.wild_ss.update(self.append_algo_name(wild_ss, 'NNSplice'))
             self.mut_ss.update(self.append_algo_name(mut_ss, 'NNSplice'))
         if self.use_HSF:
+            from splice.HSF import HSF
             wild_ss = HSF(self.wild, offset).find_all_sites(splice_type=splice_type, strand=strand)
             mut_ss = HSF(self.mut, offset).find_all_sites(splice_type=splice_type, strand=strand)
             self.wild_ss.update(self.append_algo_name(wild_ss, 'HSF'))
@@ -355,4 +355,3 @@ splice.use_algo(use_SSFL=True, use_MaxEntScan=True)
 splice.score_splice_sites()
 print splice
 '''
-
