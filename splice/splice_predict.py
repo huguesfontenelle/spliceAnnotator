@@ -249,7 +249,8 @@ class SplicePredict(dict):
             raise RuntimeError('Unknown method.')
 
         # TODO: currently does SNP only
-        if (len(self['ref']) != 1) or (len(self['alt']) != 1):
+        DNA = ['A', 'T', 'C', 'G']
+        if (self['ref'] not in DNA) or (self['alt'] not in DNA):
             return {self.strategy: [{'Effect':'N/A'}]}
 
         ####################
@@ -260,7 +261,7 @@ class SplicePredict(dict):
             scores.set_gene_panel(self.gene_panel)
             scores.set_ref_seq_gene(self.ref_seq_gene)
             scores.set_ref_seq(self.ref_seq)
-            
+
             if self.strategy not in STRATEGIES:
                 raise Exception("Cannot score: Unknown strategy %s" % self.strategy)
             use_strategy = STRATEGIES[self.strategy]['algorithms']
@@ -510,5 +511,3 @@ print p2
 
 assert p1 == p2
 '''
-
-
