@@ -6,11 +6,6 @@ Calls the PERL scripts from Yeo03maxEntScan
 
 echo acggtaagt > t ; perl score5.pl t | cut -f2
 
-Notes:
-1) Unefficient: calls the perl script repeatitively while it should really
-only call it once, with a list of candidate sites
-2) Only positive strand taken into account
-
 Implementation of:
 Gene Yeo and Christopher B. Burge "Maximum entropy modeling of short sequence
 motifs with applications to RNA splicing signals."
@@ -21,7 +16,8 @@ J Comput Biol (2004) vol. 11 (2-3) pp. 377-94
 
 import os.path, inspect
 import itertools
-import tempfile, os
+import tempfile
+import subprocess
 
 from splice.splice_base import SpliceBase, reverse_complement
 
@@ -60,34 +56,33 @@ class MaxEntScan( SpliceBase ):
     # ------------------------------------------------
     def score_donor_by_sequence(self, candidate):
         # Each sequence must be 9 bases long. [3 bases in exon][6 bases in intron]
-
-        if len(candidate) == 9:
-            ori_path = os.getcwd()
-            path = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-            os.chdir(path + '/' + REL_PATH_TO_3RDPARTY)
-            cmd = "echo " + candidate + " > tmp ; perl score5.pl tmp | cut -f2 "
-            score = float(os.popen(cmd).read())
-            os.chdir(ori_path)
-        else:
-            score = 0
-        return score
+        s = self.find_splice_sites(seq=candidate, splice_type="Donor", reverse=False)
+        return s.values()[0]
 
     # ------------------------------------------------
     def score_acceptor_by_sequence(self, candidate):
         # Each sequence must be 23 bases long. [20 bases in the intron][3 base in the exon]
-        if len(candidate) == 23:
-            ori_path = os.getcwd()
-            path = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-            os.chdir(path + '/' + REL_PATH_TO_3RDPARTY)
-            cmd = "echo " + candidate + " > tmp ; perl score3.pl tmp | cut -f2 "
-            score = float(os.popen(cmd).read())
-            os.chdir(ori_path)
-        else:
-            score = 0
-        return score
+        s = self.find_splice_sites(seq=candidate, splice_type="Acceptor", reverse=False)
+        return s.values()[0]
 
     # ------------------------------------------------
-    def find_splice_sites(self, splice_type="Donor", reverse=False):
+    def find_splice_sites(self, seq=None, splice_type="Donor", reverse=False):
+        '''
+        Find and score splice sites from sequence
+        Parameters:
+         - seq: FASTA string, possibly containing several candidate sites.
+                If empty, uses the class variable self.seq
+                Can be as short as one candidate splice site sequence
+         - splice_type: 'Donor' (default) or 'Acceptor'
+         - reverse: if True, score the reverse strand (default False)
+        Output:
+         - returns a dictionary of {(pos, splice_type, strand): score}
+                pos is w.r.t. the sequence,
+                but an offset can be added (from class variable self.offset)
+        '''
+        if not seq:
+            seq=self.seq
+
         if splice_type in ["Donor", "donor"]:
             pattern = "GT"
             ind_left = 3
@@ -107,7 +102,6 @@ class MaxEntScan( SpliceBase ):
         else:
             raise "Invalid splice type (", splice_type, ")\nMust be Donor|Acceptor."
 
-        seq = self.seq
         strand = "+"
         if reverse==True:
             seq = reverse_complement(seq)
@@ -115,9 +109,8 @@ class MaxEntScan( SpliceBase ):
         s = {}
         ind = 0
 
-        ori_path = os.getcwd()
         path = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-        os.chdir(path + '/' + REL_PATH_TO_3RDPARTY)
+        path = os.path.join(path, REL_PATH_TO_3RDPARTY)
 
         candidate_list = []
 
@@ -131,14 +124,16 @@ class MaxEntScan( SpliceBase ):
                     f.write(str(candidate))
                     candidate_list.append([ind+ind_off, candidate])
 
-        cmd = ' '.join(['perl', program, outsock_path, '|', 'cut -f2'])
-        score = os.popen(cmd).read().split('\n')
+        args = ['perl', program, outsock_path]
+        proc = subprocess.Popen(args, cwd=path, stdout=subprocess.PIPE)
+        score = proc.stdout.read().split('\n')
+        proc.terminate()
 
         os.close(outfd)
         os.remove(outsock_path)
 
         score = filter(None, score)
-        score = [float(i) for i in score]
+        score = [float(line.split('\t')[-1]) for line in score]
 
         selectors = [x > threshold  for x in score]
         if reverse==True:
@@ -148,7 +143,6 @@ class MaxEntScan( SpliceBase ):
             for key1, key2 in itertools.compress(zip(score, candidate_list), selectors):
                 s.update( {(key2[0] + self.offset, splice_type, strand): key1 } )
 
-        os.chdir(ori_path)
         return s
 
     # ------------------------------------------------
