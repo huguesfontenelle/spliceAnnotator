@@ -248,10 +248,9 @@ class SplicePredict(dict):
         if self.strategy not in STRATEGIES:
             raise RuntimeError('Unknown method.')
 
-        # TODO: currently does SNP only
-        DNA = ['A', 'T', 'C', 'G']
-        if (self['ref'] not in DNA) or (self['alt'] not in DNA):
-            return {self.strategy: [{'Effect':'N/A'}]}
+        # TODO: GIN-174: currently only SNPs and indels without frameshits
+        if not len(self['ref']) == len(self['alt']):
+            return {self.strategy: [{'Effect': 'Not implemented'}]}
 
         ####################
         # check if SCORES available
