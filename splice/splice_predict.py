@@ -400,10 +400,13 @@ class SplicePredict(dict):
             effect = {'Effect': self.effect_dict['new_cryptic_splice_site']}
             effect.update({'pos': pos})
             scores = {}
-            for algo_name, score in self.new_ss[(pos, splice_type, strand)]:
-                scores.update({algo_name: [0, score]})
-            effect.update({'scores':scores})
-            splice_effect.append(effect)
+            for algo_name, mut_score in self.new_ss[(pos, splice_type, strand)]:
+                wild_score = self.wild_ss.get( (pos, splice_type, strand, algo_name), 0.0)
+                if algo_name == 'MaxEntScan' and mut_score >= 4:
+                    scores.update({algo_name: [wild_score, mut_score]})
+            effect.update({'scores': scores})
+            if effect['scores']:
+                splice_effect.append(effect)
         # lost
         # (irrelevant)
 
@@ -417,7 +420,7 @@ class SplicePredict(dict):
                     wild_score = self.wild_ss.get( self.auth_ss+tuple([algo_name]), 0.0)
                     mut_score = self.mut_ss.get( self.auth_ss+tuple([algo_name]), 0.0)
                     scores.update({algo_name: [wild_score, mut_score]})
-                effect.update({'scores':scores})
+                effect.update({'scores': scores})
             splice_effect.append(effect)
 
         if 'predict' in self:

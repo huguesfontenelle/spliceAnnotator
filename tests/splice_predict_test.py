@@ -28,8 +28,14 @@ class TestSplicePredict(unittest.TestCase):
                 'ID': '0', 'strategy': 'Jian14nar'},
             {'chrom': '3', 'pos': 30686405, 'ref': 'ATG', 'alt': 'TTC',
                 'ID': '0', 'strategy': 'Jian14nar'}]
+        self.data_denovo = [
+            {'chrom': '3', 'pos': 30686242, 'ref': 'A', 'alt': 'G',
+                'ID': '0', 'strategy': 'Jian14nar'},
+            {'chrom': '3', 'pos': 30686413, 'ref': 'C', 'alt': 'T',
+                'ID': '0', 'strategy': 'Jian14nar'},
+            {'chrom': '3', 'pos': 30686258, 'ref': 'C', 'alt': 'T',
+                'ID': '0', 'strategy': 'Jian14nar'}]
 
-    '''
     def test_refseqgene(self):
         for record in self.data:
             p1 = SplicePredict(record)
@@ -74,10 +80,24 @@ class TestSplicePredict(unittest.TestCase):
                 self.assertEqual(effect[strategy], p1['predict'][strategy])
                 print p1
                 print effect
-    '''
 
     def test_indels(self):
         for record in self.data_indels:
+            p1 = SplicePredict(record)
+            p1.set_ref_seq(REFSEQ)
+            p1.set_gene_panel(GENEPANEL)
+            p1.strategy = record['strategy']
+            effect = p1.predict()
+            self.assertTrue('wild' in p1)
+            self.assertTrue('mut' in p1)
+            self.assertTrue('predict' in p1)
+            self.assertTrue('Effect' in p1['predict'][record['strategy']][0])
+            self.assertEqual(effect[record['strategy']], p1['predict'][record['strategy']])
+            print p1
+            print effect
+
+    def test_denovo(self):
+        for record in self.data_denovo:
             p1 = SplicePredict(record)
             p1.set_ref_seq(REFSEQ)
             p1.set_gene_panel(GENEPANEL)
