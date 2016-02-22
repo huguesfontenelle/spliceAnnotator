@@ -5,25 +5,22 @@ SpliceAnnotate
 @author: Hugues Fontenelle, 2015
 '''
 
-__version__ = '0.1'
+__version__ = '0.2'
 
 import argparse, sys, os
-import vcf, json
+import vcf
 from vcf.parser import _Info as VcfInfo
-from splice.splice_predict import SplicePredict
-
-STRATEGY = 'Jian14nar'
+from splice import splice_predict
 
 # ============================================================
 def main():
         '''
-        $ python ../../annotation/splice/splice_annotate.py --help
-        usage: splice_annotate.py [-h] -i INPUT [-o OUTPUT] [--json JSON]
-                                  [--genepanel GENEPANEL] [--refseqgene REFSEQGENE]
-                                  [--refseq REFSEQ]
-
+        $ python splice_annotate.py --help
+        usage: splice_annotate.py [-h] -i INPUT [-o OUTPUT] [--genepanel GENEPANEL]
+                                  [--refseqgene REFSEQGENE] [--refseq REFSEQ]
+        
         Annotate a VCF with splice site effect prediction.
-
+        
         optional arguments:
           -h, --help            show this help message and exit
           -i INPUT, --input INPUT
@@ -31,7 +28,6 @@ def main():
           -o OUTPUT, --output OUTPUT
                                 Output VCF file for annotation of predictions
                                 (default=same as input)
-          --json JSON           Output JSON file with scores and predictions
           --genepanel GENEPANEL
                                 Filepath for genepanel
           --refseqgene REFSEQGENE
@@ -50,8 +46,6 @@ def main():
                             help='Input VCF file')
         parser.add_argument('-o', '--output', type=str, required=False,
                             help='Output VCF file for annotation of predictions (default=same as input)')
-        parser.add_argument('--json', type=str, required=False,
-                            help='Output JSON file with scores and predictions')
         parser.add_argument('--genepanel', type=str, required=False,
                             help='Filepath for genepanel')
         parser.add_argument('--refseqgene', type=str, required=False,
@@ -68,7 +62,7 @@ def main():
 
         vcf_handle = open(input_filename, 'r')
         vcf_reader = vcf.Reader(vcf_handle)
-        vcf_info_desc = 'Splice effect (method=%s). Format: Transcript|Effect|MaxEntScan-wild|MaxEntScan-mut' % STRATEGY
+        vcf_info_desc = 'Splice effect. Format: Transcript|Effect|MaxEntScan-wild|MaxEntScan-mut'
         vcf_reader.infos['splice'] = VcfInfo(id='splice',
                                              num=1,
                                              type='String',
@@ -79,37 +73,20 @@ def main():
         output_file = open('tmp.vcf', 'w')
         vcf_writer = vcf.Writer(output_file, vcf_reader)
 
-        records = list()
         for record in vcf_reader:
-            predict = SplicePredict()
-            if args.genepanel:
-                predict.set_gene_panel(args.genepanel)
-            if args.refseqgene:
-                predict.set_ref_seq_gene(args.refseqgene)
-            if args.refseq:
-                predict.set_ref_seq(args.refseq)
-            predict.set_variant(record.CHROM, record.POS, record.REF, record.ALT, ID=record.ID)
-            predict.strategy = STRATEGY
-            splice_effect = predict.predict()
-            records.append(predict)
+            effect = splice_predict.predict(chrom=record.CHROM,
+                                   pos=record.POS,
+                                   ref=record.REF,
+                                   alt=record.ALT,
+                                   genepanel=args.genepanel,
+                                   refseqgene=args.refseqgene,
+                                   refseq=args.refseq)  
 
-            # write in VCF
-            splice_annot = []
-            transcript = predict.get('authentic', {}).get('transcript', '')
-            for effect in splice_effect[predict.strategy]:
-                effect_name = effect.get('Effect', 'unknown')
-                scores = effect.get('scores', {})
-                MES = [round(x, 2) if x != '' else '' for x in scores.get('MaxEntScan', ['', ''])]
-                #SSFL = [round(x, 2) if x != '' else '' for x in scores.get('SSFL', ['', ''])]
-                if effect_name is not 'de_novo':
-                    splice_annot.append('%s|%s|%s|%s' % (transcript, effect_name, MES[0], MES[1]))
-                else:
-                    pos = effect.get('pos', '?')
-                    splice_annot.append('%s|%s@%s|%s|%s' % (transcript, effect_name, pos, MES[0], MES[1]))
-            if record.INFO.has_key('splice'):
-                record.INFO['splice'] = '&'.join(splice_annot)
+            if 'splice' in record.INFO:
+                record.INFO['splice'] = effect
             else:
-                record.add_info('splice', '&'.join(splice_annot))
+                record.add_info(effect)
+
             vcf_writer.write_record(record)
 
         vcf_handle.close()
@@ -117,9 +94,6 @@ def main():
 
         os.rename('tmp.vcf', output_filename)
 
-        if args.json:
-            with open(args.json, 'w') as f:
-                f.write(json.dumps(records, indent=4, ensure_ascii=False))
 
 # ============================================================
 if  __name__ == "__main__":

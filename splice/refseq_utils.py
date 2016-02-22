@@ -37,10 +37,47 @@ RefSeqAccession = {'hg19': {
 }
 }
 
+try:
+   import cPickle as pickle
+except:
+   import pickle
+   
+__all__ = ["memoize"]
+
+def memoize(function, limit=None):
+    if isinstance(function, int):
+        def memoize_wrapper(f):
+            return memoize(f, function)
+
+        return memoize_wrapper
+
+    dict = {}
+    list = []
+    def memoize_wrapper(*args, **kwargs):
+        key = pickle.dumps((args, kwargs))
+        try:
+            list.append(list.pop(list.index(key)))
+        except ValueError:
+            dict[key] = function(*args, **kwargs)
+            list.append(key)
+            if limit is not None and len(list) > limit:
+                del dict[list.pop(0)]
+
+        return dict[key]
+
+    memoize_wrapper._memoize_dict = dict
+    memoize_wrapper._memoize_list = list
+    memoize_wrapper._memoize_limit = limit
+    memoize_wrapper._memoize_origfunc = function
+    memoize_wrapper.func_name = function.func_name
+    return memoize_wrapper
+    
+
 # ------------------------------------------------------------
 def chr_to_refseq(chrom, ref='hg19'):
     '''Returns the NCBI Reference SequenceID from chromosome number'''
     return RefSeqAccession[ref].get(chrom, "Unkwnown chromosome number")
+
 
 # ------------------------------------------------------------
 def get_fasta(chrom, start, end, refseq=None, ref='hg19'):
@@ -72,8 +109,157 @@ def get_fasta(chrom, start, end, refseq=None, ref='hg19'):
 
     return fasta
 
+
 # ------------------------------------------------------------
-def get_closest_authentic(chrom, pos, refseqgene=None, genepanel=None, ref='hg19'):
+def get_auth_from_refseqgene(chrom, pos, refseqgene=None,  ref='hg19'):
+    '''Retrieves exon definitions from local refSeqGene file'''
+    refSeq = []
+    try:
+        with open(refseqgene, 'r') as f:
+            refSeqList = csv.reader(f, delimiter='\t')
+            for row in refSeqList:
+                if row[0].strip().startswith('#'):
+                    continue
+                if row[2][3:] == chrom \
+                and int(row[4]) <= pos <= int(row[5]):
+                    refSeq = row
+                    break
+    except Exception as e:
+        raise e
+
+    if refSeq == []:
+        print 'Not in a RefSeq transcript\n'
+        return {'chrom': chrom, 'pos': None, 'splice_type': None, 'strand': None, 'transcript': None}
+
+    exonList = [(int(x), int(y)) for (x,y) in zip(refSeq[9].rstrip(',').split(','), refSeq[10].rstrip(',').split(','))]
+    strand = refSeq[3]
+    transcript = refSeq[1]
+
+    rel_exons = [(abs(start-pos), abs(end-pos)) for (start, end) in exonList]
+    a = [(min(e), e.index(min(e))) for i, e in enumerate(rel_exons)]
+    id0 = a.index(min(a))
+    id1 = min(a)[1]
+    closest_splice_site = exonList[id0][id1]
+
+    if strand == '+':
+        splice_type = {0:"Acceptor", 1:"Donor"}[id1]
+    else: # the convention is opposite for - strand!!
+        splice_type = {1:"Acceptor", 0:"Donor"}[id1]
+
+    # returns True if exonic, False if intronic
+    #is_in_exon = any(start <= pos <= end for (start, end) in exonList)
+
+    return {'chrom': chrom,
+            'pos': closest_splice_site, 'splice_type': splice_type,
+            'strand': strand, 'transcript': transcript}
+
+   
+# ------------------------------------------------------------
+def get_auth_from_genepanel(chrom, pos, genepanel=None, ref='hg19'):
+    '''Retrieves exon definitions from local genepanel file'''
+    gp = []
+    try:
+        with open(genepanel, 'r') as f:
+            gpList = csv.reader(f, delimiter='\t')
+            for row in gpList:
+                if row[0].strip().startswith('#'):
+                    continue
+                txStart, txEnd= int(row[1]), int(row[2])
+                if row[0] == chrom\
+                and txStart <= pos <= txEnd:
+                    gp = row
+                    break
+    except Exception as e:
+        raise e
+
+    if gp == []:
+        print 'Not in a genepanel transcript\n'
+        return {'pos': None, 'splice_type': None, 'strand': None, 'transcript': None}
+
+    exonList = [(int(x), int(y)) for (x,y) in zip(gp[12].rstrip(',').split(','), gp[13].rstrip(',').split(','))]
+    strand = gp[5]
+    transcript = gp[3]
+
+    rel_exons = [(abs(start-pos), abs(end-pos)) for (start, end) in exonList]
+    a = [(min(e), e.index(min(e))) for i, e in enumerate(rel_exons)]
+    id0 = a.index(min(a))
+    id1 = min(a)[1]
+    closest_splice_site = exonList[id0][id1]
+
+    if strand == '+':
+        splice_type = {0:"Acceptor", 1:"Donor"}[id1]
+    else: # the convention is opposite for - strand!!
+        splice_type = {1:"Acceptor", 0:"Donor"}[id1]
+
+    # returns True if exonic, False if intronic
+    #is_in_exon = any(start <= pos <= end for (start, end) in exonList)
+
+    return {'chrom': chrom, 'pos':closest_splice_site, 'splice_type': splice_type,
+            'strand': strand, 'transcript': transcript}
+            
+
+# ------------------------------------------------------------
+def get_auth_from_NCBI(chrom, pos, ref='hg19'):
+    '''Retrieves exon definitions from from NCBI (internet connection)'''
+    from Bio import Entrez, SeqIO
+
+    refseq_id = chr_to_refseq(chrom, ref)
+    startpos = pos - 5000
+    endpos = pos + 5000
+    Entrez.email = email
+    handle = Entrez.efetch(db="nucleotide",
+                           id=refseq_id,
+                           rettype="gb",
+                           retmode="text",
+                           seq_start=startpos,
+                           seq_stop=endpos)
+    entrez_record = SeqIO.read(handle, "gb")
+    handle.close()
+
+    # find mRNA exons start:end in the subsequence
+    # exons = {}
+    exonList = []
+    for feature in entrez_record.features:
+        if feature.type == 'mRNA':
+            if not feature.sub_features:
+                exonList.append((feature.location.start.position + startpos,
+                                  feature.location.end.position + startpos,
+                                  feature.location.strand))
+            else:
+                for sub_feature in feature.sub_features:
+                    exonList.append((sub_feature.location.start.position + startpos,
+                                  sub_feature.location.end.position + startpos,
+                                  sub_feature.location.strand))
+    if not exonList:
+        print 'No authentic splice site nearby\n'
+        return {'pos': None, 'splice_type': None, 'strand': None, 'transcript': None}
+
+    # returns True if exonic, False if intronic
+    #is_in_exon = any(start <= self.pos <= end for (start, end, strand) in exonList)
+
+    # min((min( abs(start-pos), abs(end-pos) ) for
+    # (start, end, strand) in exonList))
+    # returns the distance
+
+    rel_exons = [(abs(start-pos), abs(end-pos)) for (start, end, s) in exonList]
+    a = [(min(e), e.index(min(e))) for i, e in enumerate(rel_exons)]
+    id0 = a.index(min(a))
+    id1 = min(a)[1]
+    closest_splice_site = exonList[id0][id1]
+
+    strand = {1: "+", -1:"-"}[exonList[id0][2]]
+    if strand == '+':
+        splice_type = {0:"Acceptor", 1:"Donor"}[id1]
+    else: # the convention is opposite for - strand!!
+        splice_type = {1:"Acceptor", 0:"Donor"}[id1]
+
+    return {'chrom': chrom, 'pos':closest_splice_site-1, 'splice_type': splice_type,
+            'strand': strand, 'transcript': refseq_id}
+
+
+# ------------------------------------------------------------
+@memoize(10)
+def get_closest_authentic(chrom, pos, refseqgene=None, genepanel=None, ref='hg19', get_sequence=False, refseq=None):
     '''
     Find the closest intron-exon junction in the RefSeq w.r.t. the mutation
     position. Returns a dictionnary with the splice site position, splice type,
@@ -84,149 +270,17 @@ def get_closest_authentic(chrom, pos, refseqgene=None, genepanel=None, ref='hg19
     #auth = {'pos': None, 'splice_type': None, 'strand': None, 'transcript': None}
     if chrom.startswith("chr"): chrom = chrom[3:]
     if refseqgene:
-        '''Retrieves exon definitions from local refSeqGene file'''
-        refSeq = []
-        try:
-            with open(refseqgene, 'r') as f:
-                refSeqList = csv.reader(f, delimiter='\t')
-                for row in refSeqList:
-                    if row[0].strip().startswith('#'):
-                        continue
-                    if row[2][3:] == chrom \
-                    and int(row[4]) <= pos <= int(row[5]):
-                        refSeq = row
-                        break
-        except Exception as e:
-            raise e
-
-        if refSeq == []:
-            print 'Not in a RefSeq transcript\n'
-            return {'pos': None, 'splice_type': None, 'strand': None, 'transcript': None}
-
-        exonList = [(int(x), int(y)) for (x,y) in zip(refSeq[9].rstrip(',').split(','), refSeq[10].rstrip(',').split(','))]
-        strand = refSeq[3]
-        transcript = refSeq[1]
-
-        rel_exons = [(abs(start-pos), abs(end-pos)) for (start, end) in exonList]
-        a = [(min(e), e.index(min(e))) for i, e in enumerate(rel_exons)]
-        id0 = a.index(min(a))
-        id1 = min(a)[1]
-        closest_splice_site = exonList[id0][id1]
-
-        if strand == '+':
-            splice_type = {0:"Acceptor", 1:"Donor"}[id1]
-        else: # the convention is opposite for - strand!!
-            splice_type = {1:"Acceptor", 0:"Donor"}[id1]
-
-        # returns True if exonic, False if intronic
-        #is_in_exon = any(start <= pos <= end for (start, end) in exonList)
-
-        auth = {'pos':closest_splice_site, 'splice_type': splice_type,
-                'strand': strand, 'transcript': transcript}
-
-    # ------------------------------------------------------------
+        auth = get_auth_from_refseqgene(chrom, pos, refseqgene=refseqgene, ref='hg19')
     elif genepanel:
-        '''Retrieves exon definitions from local genepanel file'''
-        gp = []
-        try:
-            with open(genepanel, 'r') as f:
-                gpList = csv.reader(f, delimiter='\t')
-                for row in gpList:
-                    if row[0].strip().startswith('#'):
-                        continue
-                    txStart, txEnd= int(row[1]), int(row[2])
-                    if row[0] == chrom\
-                    and txStart <= pos <= txEnd:
-                        gp = row
-                        break
-        except Exception as e:
-            raise e
-
-        if gp == []:
-            print 'Not in a genepanel transcript\n'
-            return {'pos': None, 'splice_type': None, 'strand': None, 'transcript': None}
-
-        exonList = [(int(x), int(y)) for (x,y) in zip(gp[12].rstrip(',').split(','), gp[13].rstrip(',').split(','))]
-        strand = gp[5]
-        transcript = gp[3]
-
-        rel_exons = [(abs(start-pos), abs(end-pos)) for (start, end) in exonList]
-        a = [(min(e), e.index(min(e))) for i, e in enumerate(rel_exons)]
-        id0 = a.index(min(a))
-        id1 = min(a)[1]
-        closest_splice_site = exonList[id0][id1]
-
-        if strand == '+':
-            splice_type = {0:"Acceptor", 1:"Donor"}[id1]
-        else: # the convention is opposite for - strand!!
-            splice_type = {1:"Acceptor", 0:"Donor"}[id1]
-
-        # returns True if exonic, False if intronic
-        #is_in_exon = any(start <= pos <= end for (start, end) in exonList)
-
-        auth = {'pos':closest_splice_site, 'splice_type': splice_type,
-                'strand': strand, 'transcript': transcript}
-
-    # ------------------------------------------------------------
+        auth = get_auth_from_genepanel(chrom, pos, genepanel=genepanel, ref='hg19')
     else:
-        '''Retrieves exon definitions from from NCBI (internet connection)'''
+        auth = get_auth_from_NCBI(chrom, pos, ref='hg19')
 
-        from Bio import Entrez, SeqIO
-
-        refseq_id = chr_to_refseq(chrom, ref)
-        startpos = pos - 5000
-        endpos = pos + 5000
-        Entrez.email = email
-        handle = Entrez.efetch(db="nucleotide",
-                               id=refseq_id,
-                               rettype="gb",
-                               retmode="text",
-                               seq_start=startpos,
-                               seq_stop=endpos)
-        entrez_record = SeqIO.read(handle, "gb")
-        handle.close()
-
-        # find mRNA exons start:end in the subsequence
-        # exons = {}
-        exonList = []
-        for feature in entrez_record.features:
-            if feature.type == 'mRNA':
-                if not feature.sub_features:
-                    exonList.append((feature.location.start.position + startpos,
-                                      feature.location.end.position + startpos,
-                                      feature.location.strand))
-                else:
-                    for sub_feature in feature.sub_features:
-                        exonList.append((sub_feature.location.start.position + startpos,
-                                      sub_feature.location.end.position + startpos,
-                                      sub_feature.location.strand))
-        if not exonList:
-            print 'No authentic splice site nearby\n'
-            return {'pos': None, 'splice_type': None, 'strand': None, 'transcript': None}
-
-        # returns True if exonic, False if intronic
-        #is_in_exon = any(start <= self.pos <= end for (start, end, strand) in exonList)
-
-        # min((min( abs(start-pos), abs(end-pos) ) for
-        # (start, end, strand) in exonList))
-        # returns the distance
-
-        rel_exons = [(abs(start-pos), abs(end-pos)) for (start, end, s) in exonList]
-        a = [(min(e), e.index(min(e))) for i, e in enumerate(rel_exons)]
-        id0 = a.index(min(a))
-        id1 = min(a)[1]
-        closest_splice_site = exonList[id0][id1]
-
-        strand = {1: "+", -1:"-"}[exonList[id0][2]]
-        if strand == '+':
-            splice_type = {0:"Acceptor", 1:"Donor"}[id1]
-        else: # the convention is opposite for - strand!!
-            splice_type = {1:"Acceptor", 0:"Donor"}[id1]
-
-        auth = {'pos':closest_splice_site-1, 'splice_type': splice_type,
-                'strand': strand, 'transcript': refseq_id}
-
+    if get_sequence:
+        auth['fasta'] = get_fasta(chrom=auth['chrom'], start=auth['pos']-50, end=auth['pos']+50, refseq=refseq)
+        
     return auth
+
 
 # ============================================================
 if  __name__ == "__main__":

@@ -1,6 +1,0 @@
-##fileformat=VCFv4.1
-##INFO=<ID=case_study1,Number=1,Type=String,Description="Validated alternative splicings">
-##INFO=<ID=splice,Number=1,Type=String,Description="Splice effect (method=Jian14nar). Format: Transcript|Effect|MaxEntScan-wild|MaxEntScan-mut">
-#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
-4	155490952	cs1_1	G	T	.	.	splice=NM_005141|lost_site|8.14|0.0
-4	155490472	cs1_2	C	T	.	.	splice=NM_005141|de_novo@155490470|0.0|9.37
