@@ -25,15 +25,33 @@ def predict(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=None):
 
     effects = list()        
     for alt1 in alt:
-        effect = predict_one(chrom, pos, ref, str(alt1), refseq=refseq, refseqgene=refseqgene, genepanel=genepanel)
-        effects += [print_vcf(effect)]
+        effects.append( predict_one(chrom, pos, ref, str(alt1), refseq=refseq, refseqgene=refseqgene, genepanel=genepanel) )
     
-    return ','.join(effects)
+    return print_vcf(effects)
             
         
-
 # ------------------------------------------------
 def predict_one(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=None):
+    '''
+    Predicts
+    '''
+    assert os.path.isfile(refseq)
+    assert os.path.isfile(refseqgene) or os.path.isfile(genepanel)
+    
+    effect_auth = predict_lost_auth(chrom, pos, ref, alt, refseq=refseq, refseqgene=refseqgene, genepanel=genepanel)
+    effect_denovo = predict_de_novo(chrom, pos, ref, alt, refseq=refseq, refseqgene=refseqgene, genepanel=genepanel)
+    
+    return effect_auth + effect_denovo
+
+
+# ------------------------------------------------
+def predict_de_novo(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=None):
+    # [ {'effect_descr': 'de_novo'}]
+    return []
+
+
+# ------------------------------------------------
+def predict_lost_auth(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=None):
     '''
     Predicts
     '''
@@ -87,19 +105,34 @@ def predict_one(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=No
               'strand': auth['strand'],
               'transcript': auth['transcript']}
 
-    return effect
+    return [effect]
 
 # ------------------------------------------------
-def print_vcf(effect):
+def print_vcf(effects):
     '''
     Here comes the VCF formatting
     '''
-    if effect['effect_descr'] == 'not_in_transcript':
-        return effect['effect_descr']
-        
-    s = '|'.join([effect['transcript'], effect['effect_descr'], str(effect['wild_score']), str(effect['mut_score'])])
     
-    return s
+    p = list()
+    for allele_effect in effects:
+        s = list()
+        for single_effect in allele_effect:
+            if single_effect['effect_descr'] == 'not_in_transcript':
+                s += [single_effect['effect_descr']]
+            elif single_effect['effect_descr'] in ['no_effect', 'conserved_site', 'lost_site']:
+                s += ['|'.join([single_effect['transcript'],
+                               single_effect['effect_descr'],
+                               str(single_effect['wild_score']),
+                               str(single_effect['mut_score'])
+                              ])]
+                   
+            elif single_effect['effect_descr'] == 'de_novo':
+                s += ['|'.join([single_effect['transcript'], '?'])]
+            else:
+                s += ['NOT_IMPLEMENTED' + single_effect['effect_descr']]
+        p += ['&'.join(s)]   
+        
+    return ','.join(p)
 
 
 # ============================================================
