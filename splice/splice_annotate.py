@@ -9,6 +9,7 @@ __version__ = '0.2'
 
 import argparse, sys, os
 import vcf
+import tempfile, shutil
 from vcf.parser import _Info as VcfInfo
 from splice import splice_predict
 
@@ -70,30 +71,32 @@ def main():
                                              source='AMG-OUS-splice',
                                              version=__version__)
 
-        output_file = open('tmp.vcf', 'w')
-        vcf_writer = vcf.Writer(output_file, vcf_reader)
+        outfd, outsock_path = tempfile.mkstemp(suffix='.vcf', prefix='annotate', dir=None, text=True)
+        with open(outsock_path, 'w') as output_file:
+            vcf_writer = vcf.Writer(output_file, vcf_reader)
 
-        for record in vcf_reader:
-            effect = splice_predict.predict(chrom=record.CHROM,
-                                   pos=record.POS,
-                                   ref=record.REF,
-                                   alt=record.ALT,
-                                   genepanel=args.genepanel,
-                                   refseqgene=args.refseqgene,
-                                   refseq=args.refseq)  
-
-            if 'splice' in record.INFO:
-                record.INFO['splice'] = effect
-            else:
-                record.add_info(effect)
-
-            vcf_writer.write_record(record)
-
-        vcf_handle.close()
-        vcf_writer.close()
-
-        os.rename('tmp.vcf', output_filename)
-
+            for record in vcf_reader:
+                effect = splice_predict.predict(chrom=record.CHROM,
+                                       pos=record.POS,
+                                       ref=record.REF,
+                                       alt=record.ALT,
+                                       genepanel=args.genepanel,
+                                       refseqgene=args.refseqgene,
+                                       refseq=args.refseq)  
+    
+                if 'splice' in record.INFO:
+                    record.INFO['splice'] = effect
+                else:
+                    record.add_info(effect)
+    
+                vcf_writer.write_record(record)
+    
+            vcf_handle.close()
+            vcf_writer.close()
+            shutil.copy(outsock_path, output_filename)
+        
+        os.close(outfd)
+        os.remove(outsock_path)
 
 # ============================================================
 if  __name__ == "__main__":
