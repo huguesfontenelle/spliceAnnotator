@@ -15,7 +15,6 @@ J Comput Biol (2004) vol. 11 (2-3) pp. 377-94
 """
 
 import os.path
-import sys
 import inspect
 import tempfile
 import subprocess
@@ -77,8 +76,3 @@ def score(seq, strand='+'):
     score = [float(line.split('\t')[-1]) for line in score]
         
     return score
-    
-
-if __name__ == '__main__':
-    pass
-    #print score(sys.argv[1:])

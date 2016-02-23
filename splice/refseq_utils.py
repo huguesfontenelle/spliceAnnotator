@@ -259,7 +259,7 @@ def get_auth_from_NCBI(chrom, pos, ref='hg19'):
 
 # ------------------------------------------------------------
 @memoize(10)
-def get_closest_authentic(chrom, pos, refseqgene=None, genepanel=None, ref='hg19', get_sequence=False, refseq=None):
+def get_closest_authentic(chrom, pos, refseqgene=None, genepanel=None, ref='hg19', get_sequence=False, refseq=None, seq_size=50):
     '''
     Find the closest intron-exon junction in the RefSeq w.r.t. the mutation
     position. Returns a dictionnary with the splice site position, splice type,
@@ -277,7 +277,7 @@ def get_closest_authentic(chrom, pos, refseqgene=None, genepanel=None, ref='hg19
         auth = get_auth_from_NCBI(chrom, pos, ref='hg19')
 
     if get_sequence:
-        auth['fasta'] = get_fasta(chrom=auth['chrom'], start=auth['pos']-50, end=auth['pos']+50, refseq=refseq)
+        auth['fasta'] = get_fasta(chrom=auth['chrom'], start=auth['pos']-seq_size, end=auth['pos']+seq_size, refseq=refseq)
         
     return auth
 
