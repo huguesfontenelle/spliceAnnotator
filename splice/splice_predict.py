@@ -107,7 +107,7 @@ def predict_de_novo(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepane
         effects.append(effect)
 
     ff_denovo = lambda x: ((x['wild_score'] <= 0) and (x['mut_score'] >= 4)) or \
-                          ((x['mut_score'] >= 0) and (x['mut_score'] / max(x['wild_score'], 0.01) - 1 > 0.25))
+                          ((x['wild_score'] > 0) and (x['mut_score'] >= 0) and (x['mut_score'] / x['wild_score'] - 1 >= 0.25))
     
     return filter(ff_denovo, effects)
 
