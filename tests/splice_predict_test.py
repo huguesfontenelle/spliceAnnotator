@@ -36,6 +36,25 @@ class TestSplicePredict(TestCase):
                       'transcript',
                       'wild_score',
                       'wild_seq']
+        self.sequences = [
+            {'chrom': '3', 'pos':101520831, 'ref':'G', 'alt':'',
+             'wild_seq': 'GAGGTATGT', 'mut_seq': 'AAGGTATGT'}, # del on left of 5'ss+
+            {'chrom': '3', 'pos':101520836, 'ref':'A', 'alt':'',
+             'wild_seq': 'GAGGTATGT', 'mut_seq': 'GAGGTTGTA'}, # del on right of 5'ss+
+            {'chrom': '3', 'pos':101520833, 'ref':'GGT', 'alt':'',
+             'wild_seq': 'GAGGTATGT', 'mut_seq': 'GAATGTACT'}, # del start on left, finishes on right of 5'ss+: in this case the site is destroyed..
+            {'chrom': '3', 'pos':101520832, 'ref':'A', 'alt':'AA',
+             'wild_seq': 'GAGGTATGT', 'mut_seq': 'AAGGTATGT'}, # ins on left of 5'ss+
+            {'chrom': '3', 'pos':101520836, 'ref':'A', 'alt':'AAA',
+             'wild_seq': 'GAGGTATGT', 'mut_seq': 'GAGGTAAAT'}, # ins on right of 5'ss+
+            {'chrom': '3', 'pos':101520832, 'ref':'A', 'alt':'G',
+             'wild_seq': 'GAGGTATGT', 'mut_seq': 'GGGGTATGT'}, # SNP on left of 5'ss+
+            {'chrom': '3', 'pos':101520836, 'ref':'A', 'alt':'C',
+             'wild_seq': 'GAGGTATGT', 'mut_seq': 'GAGGTCTGT'}, # SNP on right of 5'ss+
+            {'chrom': '2', 'pos':162060105, 'ref':'A', 'alt':'',
+            'wild_seq': 'AAGGTATGT', 'mut_seq': 'CAGGTATGT', 'mut_score':9.8} # GIN-564
+        ]
+        self.content_keys =  ['wild_seq', 'mut_seq', 'mut_score']
 
     @SkipTest
     def test_refseqgene(self):
@@ -48,7 +67,8 @@ class TestSplicePredict(TestCase):
                                refseqgene=REFSEQGENE)
             for key in self.keys:
                 assert key in effect[0][0]
-  
+                
+    @SkipTest
     def test_genepanel(self):
         for record in self.data:
             effect = p.predict(record['chrom'],
@@ -60,3 +80,20 @@ class TestSplicePredict(TestCase):
             for key in self.keys:
                 if effect and effect[0] and effect[0][0]:
                     assert key in effect[0][0]
+
+    def test_sequences(self):
+        '''
+        Check that the wild and mutated sequenced are correct.
+        '''
+        for record in self.sequences:
+            effect = p.predict(record['chrom'],
+                               record['pos'],
+                               record['ref'],
+                               record['alt'],
+                               refseq=REFSEQ,
+                               refseqgene=REFSEQGENE)
+            for key in self.content_keys:
+                if key in record:
+                    assert effect[0][0][key] == record[key]
+
+                    
