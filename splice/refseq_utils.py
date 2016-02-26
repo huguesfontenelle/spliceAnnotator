@@ -128,9 +128,9 @@ def get_auth_from_refseqgene(chrom, pos, refseqgene=None,  ref='hg19'):
         raise e
 
     if refSeq == []:
-        print 'Not in a RefSeq transcript\n'
-        return {'chrom': chrom, 'pos': None, 'splice_type': None, 'strand': None, 'transcript': None}
-
+        print 'chr%s:%s Not in a RefSeq transcript\n' % (chrom, str(pos))
+        return None
+        
     exonList = [(int(x), int(y)) for (x,y) in zip(refSeq[9].rstrip(',').split(','), refSeq[10].rstrip(',').split(','))]
     strand = refSeq[3]
     transcript = refSeq[1]
@@ -173,9 +173,9 @@ def get_auth_from_genepanel(chrom, pos, genepanel=None, ref='hg19'):
         raise e
 
     if gp == []:
-        print 'Not in a genepanel transcript\n'
-        return {'pos': None, 'splice_type': None, 'strand': None, 'transcript': None}
-
+        print 'chr%s:%s Not in a genepanel transcript\n' % (chrom, str(pos))
+        return None
+        
     exonList = [(int(x), int(y)) for (x,y) in zip(gp[12].rstrip(',').split(','), gp[13].rstrip(',').split(','))]
     strand = gp[5]
     transcript = gp[3]
@@ -231,9 +231,9 @@ def get_auth_from_NCBI(chrom, pos, ref='hg19'):
                                   sub_feature.location.end.position + startpos,
                                   sub_feature.location.strand))
     if not exonList:
-        print 'No authentic splice site nearby\n'
-        return {'pos': None, 'splice_type': None, 'strand': None, 'transcript': None}
-
+        print 'chr%s:%s No authentic splice site nearby\n' % (chrom, str(pos))
+        return None
+        
     # returns True if exonic, False if intronic
     #is_in_exon = any(start <= self.pos <= end for (start, end, strand) in exonList)
 
@@ -276,7 +276,7 @@ def get_closest_authentic(chrom, pos, refseqgene=None, genepanel=None, ref='hg19
     else:
         auth = get_auth_from_NCBI(chrom, pos, ref='hg19')
 
-    if get_sequence:
+    if auth and get_sequence:
         auth['fasta'] = get_fasta(chrom=auth['chrom'], start=auth['pos']-seq_size, end=auth['pos']+seq_size, refseq=refseq)
         
     return auth

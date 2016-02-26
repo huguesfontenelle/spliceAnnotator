@@ -85,9 +85,9 @@ def main():
                                        refseq=args.refseq)  
     
                 if 'splice' in record.INFO:
-                    record.INFO['splice'] = effect
+                    record.INFO['splice'] = splice_predict.print_vcf(effect)
                 else:
-                    record.add_info(effect)
+                    record.add_info(splice_predict.print_vcf(effect))
     
                 vcf_writer.write_record(record)
     

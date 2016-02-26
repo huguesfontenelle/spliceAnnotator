@@ -19,7 +19,10 @@ def predict(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=None):
     Predicts
     '''
     assert os.path.isfile(refseq)
-    assert os.path.isfile(refseqgene) or os.path.isfile(genepanel)
+    if refseqgene:
+        assert os.path.isfile(refseqgene) 
+    if genepanel:
+        assert os.path.isfile(genepanel)
 
     if type(alt) is str:
         alt = [alt]
@@ -28,7 +31,7 @@ def predict(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=None):
     for alt1 in alt:
         effects.append( predict_one(chrom, pos, ref, str(alt1), refseq=refseq, refseqgene=refseqgene, genepanel=genepanel) )
     
-    return print_vcf(effects)
+    return effects
             
         
 # ------------------------------------------------
@@ -36,9 +39,6 @@ def predict_one(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=No
     '''
     Predicts
     '''
-    assert os.path.isfile(refseq)
-    assert os.path.isfile(refseqgene) or os.path.isfile(genepanel)
-    
     effect_auth = predict_lost_auth(chrom, pos, ref, alt, refseq=refseq, refseqgene=refseqgene, genepanel=genepanel)
     effect_denovo = predict_de_novo(chrom, pos, ref, alt, refseq=refseq, refseqgene=refseqgene, genepanel=genepanel)
     
@@ -47,11 +47,11 @@ def predict_one(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=No
 
 # ------------------------------------------------
 def predict_de_novo(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=None):
-    assert os.path.isfile(refseq)
-    assert os.path.isfile(refseqgene) or os.path.isfile(genepanel)
-    
+
     auth = rf.get_closest_authentic(chrom=chrom, pos=pos, refseqgene=refseqgene, genepanel=genepanel, refseq=refseq, get_sequence=True, seq_size=SEQ_HALF_SIZE)
-    
+    if not auth:
+        return []
+        
     dist = pos - auth['pos']
     
     consensus_size = {
@@ -117,10 +117,11 @@ def predict_lost_auth(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepa
     '''
     Predicts
     '''
-    assert os.path.isfile(refseq)
-    assert os.path.isfile(refseqgene) or os.path.isfile(genepanel)
     
     auth = rf.get_closest_authentic(chrom=chrom, pos=pos, refseqgene=refseqgene, genepanel=genepanel, refseq=refseq, get_sequence=True, seq_size=SEQ_HALF_SIZE)
+    if not auth:
+        return []
+        
     
     dist = pos - auth['pos']
     
@@ -235,8 +236,8 @@ def main():
     for record in records:
         chrom, pos, ref, alt = record
         print record
-        print predict(chrom, pos, ref, alt, refseq=refseq, refseqgene=refseqgene)
-
+        effects =  predict(chrom, pos, ref, alt, refseq=refseq, refseqgene=refseqgene)
+        print print_vcf(effects)
 
 # ============================================================
 if __name__ == "__main__":
