@@ -87,7 +87,7 @@ def main():
                 if 'splice' in record.INFO:
                     record.INFO['splice'] = splice_predict.print_vcf(effect)
                 else:
-                    record.add_info(splice_predict.print_vcf(effect))
+                    record.add_info('splice='+splice_predict.print_vcf(effect))
     
                 vcf_writer.write_record(record)
     
