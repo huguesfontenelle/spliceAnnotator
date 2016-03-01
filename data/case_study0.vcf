@@ -8,7 +8,7 @@
 13	48941741	cs0_4	T	A	.	PASS	splice=NM_000321|lost_site|8.35|0.16
 13	48923089	cs0_5	T	A	.	PASS	splice=NM_000321|conserved_site|9.04|7.31
 4	155490952	cs1_1	G	T	.	.	splice=NM_005141|lost_site|8.14|-0.37
-4	155490472	cs1_2	C	T	.	.	splice=NM_005141|no_effect|10.52|10.52
+4	155490472	cs1_2	C	T	.	.	splice=NM_005141|no_effect|10.52|10.52&NM_005141|de_novo|1.61|9.37|10.52|13
 17	41222939	cs2_1	A	G	.	.	splice=NM_007299|lost_site|5.91|2.34
 17	7578366	cs2_2	C	G	.	.	splice=NM_001276698|lost_site|8.27|2.49
 3	15495333	cs2_3	T	C	.	.	splice=NM_005677|lost_site|4.66|0.79
@@ -19,9 +19,9 @@
 1	29438960	cs2_8	G	A	.	.	splice=NM_001166005|lost_site|6.71|0.59
 X	100662698	cs2_9	C	G	.	.	splice=NM_001199974|lost_site|10.91|-4.75
 1	169519039	cs2_10	C	A	.	.	splice=NM_000130|lost_site|7.51|-1.53
-5	70945016	cs3_1	A	G	.	.	splice=NM_022132|no_effect|7.92|7.92
-X	107938114	cs3_2	G	T	.	.	splice=NM_033380|no_effect|3.85|3.85
-11	108203565	cs3_3	C	T	.	.	splice=NM_000051|no_effect|6.97|6.97
+5	70945016	cs3_1	A	G	.	.	splice=NM_022132|no_effect|7.92|7.92&NM_022132|de_novo|1.06|9.24|7.92|-64
+X	107938114	cs3_2	G	T	.	.	splice=NM_033380|no_effect|3.85|3.85&NM_033380|de_novo|2.34|9.99|3.85|-37
+11	108203565	cs3_3	C	T	.	.	splice=NM_000051|no_effect|6.97|6.97&NM_000051|de_novo|0.07|7.82|6.97|-62
 X	153647946	cs3_4	G	A	.	.	splice=NR_024048|no_effect|7.09|7.09
 15	72641434	cs3_5	A	T	.	.	splice=NM_000520|no_effect|6.69|6.69
 17	41258495	cs3_6	A	C	.	.	splice=NM_007299|no_effect|7.84|7.84

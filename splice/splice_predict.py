@@ -13,6 +13,7 @@ from splice import refseq_utils as rf
 THRESHOLD_LOST = -0.216 # threshold at which a drop in MES score is considered "LOST"
 SEQ_HALF_SIZE = 50 # half-length of the FASTA sequence retrieved around the splice site
 
+
 # ------------------------------------------------
 def predict(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=None):
     '''
@@ -68,13 +69,11 @@ def predict_de_novo(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepane
     elif auth['strand'] == '-':
         fasta_atpos = mes.reverse_complement(fasta_atpos)
         fasta_atpos_mut = fasta_atpos[:SEQ_HALF_SIZE] + mes.reverse_complement(alt) + fasta_atpos[SEQ_HALF_SIZE+len(ref):]
-    else:
-        return []
         
     wild = auth['fasta'][SEQ_HALF_SIZE+s:SEQ_HALF_SIZE+e]
     wild_score = mes.score(wild)
     
-    ff = lambda x: -s < x < 2*SEQ_HALF_SIZE-e
+    ff = lambda x: -s+1 < x < 2*SEQ_HALF_SIZE-e-1
     idx_mut = [m.start()-1 for m in re.finditer('GT', fasta_atpos_mut)]
     idx_mut = filter(ff, idx_mut)
     idx_wild = [idx if idx<=SEQ_HALF_SIZE else idx+len(ref)-len(alt) for idx in idx_mut]
@@ -120,9 +119,8 @@ def predict_lost_auth(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepa
     
     auth = rf.get_closest_authentic(chrom=chrom, pos=pos, refseqgene=refseqgene, genepanel=genepanel, refseq=refseq, get_sequence=True, seq_size=SEQ_HALF_SIZE)
     if not auth:
-        return []
+        return [{'effect_descr': 'not_in_transcript'}]
         
-    
     dist = pos - auth['pos']
     
     consensus_size = {
@@ -138,16 +136,23 @@ def predict_lost_auth(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepa
         fasta_mut = fasta[:SEQ_HALF_SIZE+dist] + alt + fasta[SEQ_HALF_SIZE+dist+len(ref):]
     elif auth['strand'] == '-':
         fasta = mes.reverse_complement(auth['fasta'])
-        fasta_mut = fasta[:SEQ_HALF_SIZE-dist] + mes.reverse_complement(alt) + fasta[SEQ_HALF_SIZE-dist+len(ref):]
-    else:
-        return {'effect_descr': 'not_in_transcript'}
+        fasta_mut = fasta[:SEQ_HALF_SIZE-dist] + mes.reverse_complement(alt) + fasta[SEQ_HALF_SIZE-dist+len(ref):]       
     
     wild = fasta[SEQ_HALF_SIZE+s:SEQ_HALF_SIZE+e]
-    mut = fasta_mut[SEQ_HALF_SIZE+s:SEQ_HALF_SIZE+e]
-
+    if 0<=dist<SEQ_HALF_SIZE:
+        mut = fasta_mut[SEQ_HALF_SIZE+s:SEQ_HALF_SIZE+e]
+    elif -SEQ_HALF_SIZE<dist<0:
+        shift = -len(ref) + len(alt)
+        mut = fasta_mut[SEQ_HALF_SIZE+shift+s:SEQ_HALF_SIZE+shift+e]
+    else:
+        mut = wild
+        
     wild_score = mes.score(wild)
-    mut_score = mes.score(mut)
-    
+    try:        
+        mut_score = mes.score(mut)
+    except Exception:
+        return [{'effect_descr': 'NA'}]
+            
     ratio = mut_score[0] / wild_score[0] - 1
     
     if wild == mut:
@@ -212,7 +217,6 @@ def main():
     refseqgene = "/Users/huguesfo/genevar/vcpipe-bundle/funcAnnot/refseq/refGene_131119.tab" # RefSeqGene definitions
     refseq = "/Users/huguesfo/genevar/vcpipe-bundle/genomic/gatkBundle_2.5/human_g1k_v37_decoy.fasta" # RefSeq FASTA sequences (hg19)
     genepanel = "/Users/huguesfo/genevar/vcpipe-bundle/clinicalGenePanels/Bindevev_v02/Bindevev_v02.transcripts.csv" # gene panel transcript file
-
 
     records = [
                ('2', 162060108, 'T', 'A'), #SNP after junction
