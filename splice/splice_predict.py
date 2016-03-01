@@ -89,7 +89,9 @@ def predict_de_novo(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepane
     dn_wild = [fasta_atpos[idx+s:idx+e] for idx in idx_wild]
     dn_mut = [fasta_atpos_mut[idx+s:idx+e] for idx in idx_mut]
         
-    denovo_seqs = [list(dn) for dn in zip(dn_wild, dn_mut, idx_wild) if dn[0] != dn[1]]
+    denovo_seqs = [list(dn) for dn in zip(dn_wild, dn_mut, idx_wild)
+                            if dn[0] != dn[1]
+                            and len(dn[0]) == len(dn[1]) in [9, 23]]
     if not denovo_seqs:
         return []
     denovo_scores_w = mes.score([dm[0] for dm in denovo_seqs])
@@ -155,13 +157,20 @@ def predict_lost_auth(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepa
     else:
         mut = wild
         
-    wild_score = mes.score(wild)
-    try:        
+
+    try:   
+        wild_score = mes.score(wild)
         mut_score = mes.score(mut)
     except Exception:
         return [{'effect_descr': EFFECT_KEYWORD['NOT_AVAILABLE']}]
-            
-    ratio = mut_score[0] / wild_score[0] - 1
+    
+    try:        
+        ratio = mut_score[0] / wild_score[0] - 1
+    except ZeroDivisionError:
+        if mut_score == 0.0:
+            ratio = 0.0
+        else:            
+            ratio = 100.0
     
     if wild == mut:
         effect_descr = EFFECT_KEYWORD['NO_EFFECT']  # the variant does not impact the site
