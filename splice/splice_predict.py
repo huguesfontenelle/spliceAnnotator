@@ -68,6 +68,7 @@ def predict_de_novo(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepane
         ('Donor', '-'): [-3, 6],
         ('Acceptor', '-'): [-20, 3],
     }
+    dimer = {'Donor': 'GT', 'Acceptor': 'AG'}
     s, e = consensus_size[(auth['splice_type'], auth['strand'])]
     
     fasta_atpos = rf.get_fasta(chrom=chrom, start=pos-SEQ_HALF_SIZE, end=pos+SEQ_HALF_SIZE, refseq=refseq)  
@@ -81,7 +82,7 @@ def predict_de_novo(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepane
     wild_score = mes.score(wild)
     
     ff = lambda x: -s+1 < x < 2*SEQ_HALF_SIZE-e-1
-    idx_mut = [m.start()-1 for m in re.finditer('GT', fasta_atpos_mut)]
+    idx_mut = [m.start()-1 for m in re.finditer(dimer[auth['splice_type']], fasta_atpos_mut)]
     idx_mut = filter(ff, idx_mut)
     idx_wild = [idx if idx<=SEQ_HALF_SIZE else idx+len(ref)-len(alt) for idx in idx_mut]
     
