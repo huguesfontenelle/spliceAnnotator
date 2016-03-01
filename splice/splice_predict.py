@@ -12,7 +12,14 @@ from splice import refseq_utils as rf
 
 THRESHOLD_LOST = -0.216 # threshold at which a drop in MES score is considered "LOST"
 SEQ_HALF_SIZE = 50 # half-length of the FASTA sequence retrieved around the splice site
-
+EFFECT_KEYWORD = {
+    'LOST': 'predicted_lost', # the splice site is predicted to be lost
+    'CONSERVED': 'predicted_conserved', # the splice site is predicted to be conserved
+    'NO_EFFECT': 'no_effect', # the variant does not impact the splice site (therefore it is conserved)
+    'DE_NOVO': 'de_novo', # the variant creates or re-inforces a 'de novo' cryptic splice site
+    'NOT_IN_TRANSCRIPT': 'not_in_transcript', # the variant is not in an available transcript region
+    'NOT_AVAILABLE': 'NA', # the prediction failed and is therefore not available
+}
 
 # ------------------------------------------------
 def predict(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=None):
@@ -89,7 +96,7 @@ def predict_de_novo(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepane
     
     effects = []
     for seq, score_w, score_m in zip(denovo_seqs, denovo_scores_w, denovo_scores_m):
-        effect = {'effect_descr': 'de_novo',
+        effect = {'effect_descr': EFFECT_KEYWORD['DE_NOVO'],
                   'distance': dist, # distance btw clostest auth and de novo ss
                   'de_novo_pos': seq[2]-SEQ_HALF_SIZE+pos, # pos of de novo ss
                   'auth_score': wild_score[0],
@@ -119,7 +126,7 @@ def predict_lost_auth(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepa
     
     auth = rf.get_closest_authentic(chrom=chrom, pos=pos, refseqgene=refseqgene, genepanel=genepanel, refseq=refseq, get_sequence=True, seq_size=SEQ_HALF_SIZE)
     if not auth:
-        return [{'effect_descr': 'not_in_transcript'}]
+        return [{'effect_descr': EFFECT_KEYWORD['NOT_IN_TRANSCRIPT']}]
         
     dist = pos - auth['pos']
     
@@ -151,16 +158,16 @@ def predict_lost_auth(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepa
     try:        
         mut_score = mes.score(mut)
     except Exception:
-        return [{'effect_descr': 'NA'}]
+        return [{'effect_descr': EFFECT_KEYWORD['NOT_AVAILABLE']}]
             
     ratio = mut_score[0] / wild_score[0] - 1
     
     if wild == mut:
-        effect_descr = 'no_effect'  # the variant does not impact the site
+        effect_descr = EFFECT_KEYWORD['NO_EFFECT']  # the variant does not impact the site
     elif ratio <= THRESHOLD_LOST:
-        effect_descr = 'lost_site'
+        effect_descr = EFFECT_KEYWORD['LOST']
     else:
-        effect_descr  = 'conserved_site'
+        effect_descr  = EFFECT_KEYWORD['CONSERVED']
 
     effect = {'effect_descr': effect_descr,
               'distance': dist,
@@ -185,16 +192,16 @@ def print_vcf(effects):
     for allele_effect in effects:
         s = list()
         for single_effect in allele_effect:
-            if single_effect['effect_descr'] == 'not_in_transcript':
+            if single_effect['effect_descr'] == EFFECT_KEYWORD['NOT_IN_TRANSCRIPT']:
                 s += [single_effect['effect_descr']]
-            elif single_effect['effect_descr'] in ['no_effect', 'conserved_site', 'lost_site']:
+            elif single_effect['effect_descr'] in [EFFECT_KEYWORD['NO_EFFECT'], EFFECT_KEYWORD['CONSERVED'], EFFECT_KEYWORD['LOST']]:
                 s += ['|'.join([single_effect['transcript'],
                                single_effect['effect_descr'],
                                str(single_effect['wild_score']),
                                str(single_effect['mut_score'])
                               ])]
                    
-            elif single_effect['effect_descr'] == 'de_novo':
+            elif single_effect['effect_descr'] == EFFECT_KEYWORD['DE_NOVO']:
                 s += ['|'.join([single_effect['transcript'],
                                 single_effect['effect_descr'],
                                 str(single_effect['wild_score']),
@@ -203,7 +210,7 @@ def print_vcf(effects):
                                 str(single_effect['distance']),
                                 ])]
             else:
-                s += ['NOT_IMPLEMENTED' + single_effect['effect_descr']]
+                s += ['NOT_IMPLEMENTED']
         p += ['&'.join(s)]   
         
     return ','.join(p)
