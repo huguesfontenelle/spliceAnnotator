@@ -15,7 +15,7 @@ This library automates the annotation of variants with MaxEntScan [1]. It predic
 ### Effect on authentic splice site
 ```
 #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
-3   30686236    id1 CA  AT  .   .   splice=NM_003242.5|predicted_lost|10.82|-0.31
+3   30686236    id1 CA  AT  .   .   splice=NM_003242.5|predicted_lost|10.82|0.0
 3    30686405    id2    ATG    TTC  .    .   splice=NM_003242.5|predicted_lost|9.26|5.42
 3   30686258    id3 C   T   .   .   splice=NM_003242.5|no_effect|10.82|10.82
 ```
@@ -31,8 +31,8 @@ In addition, a variant may be annotated with `not_in_transcript` if it falls out
 
 ```
 #CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO
-2   162060116    id4 T  G  .   .  splice=NM_004180.2|no_effect|9.79|9.79&NM_004180.2|de_novo|-9.98|4.7|9.79|10
-2    162041853    id5    T    G .    .   splice=NM_004180.2|no_effect|6.64|6.64&NM_004180.2|de_novo|2.35|10.86|6.64|5581
+2   162060116    id4 T  G  .   .  splice=NM_004180.2|no_effect|9.79|9.79&NM_004180.2|de_novo|0.0|4.7|9.79|10
+2    162041853    id5    T    G .    .   splice=NM_004180.2|no_effect|6.64|6.64&NM_004180.2|de_novo|0.0|10.86|6.64|5581
 ```
 
 Several effects are joined with the `&` character. Here the variant are scored for their effect on the authentic splice site, but in addition "de novo" sites were found. Following the `de_novo` keyword is the MaxEntScan score of the wild sequence in that position, the score of the de novo site in that position, the score of the closest authentic site, and the distance (in nucleotides) to the closest authentic site.
