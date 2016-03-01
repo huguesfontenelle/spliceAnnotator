@@ -64,8 +64,12 @@ class TestSplicePredict(TestCase):
                 {'chrom': '5', 'pos':127730815, 'ref':'C', 'alt':'G', 'transcript':'NM_001999.3'},
             ]
         }
+        self.denovo = [
+            {'chrom': '2', 'pos':162060116, 'ref':'T', 'alt':'G'}, # re-inforces existing 5'
+            {'chrom': '2', 'pos': 162041853, 'ref': 'T', 'alt':'G'}, # introduces 5'
+        ]
+        
 
-    @SkipTest
     def test_refseqgene(self):
         for record in self.data:
             effect = p.predict(record['chrom'],
@@ -77,7 +81,7 @@ class TestSplicePredict(TestCase):
             for key in self.keys:
                 assert key in effect[0][0]
                 
-    @SkipTest
+
     def test_genepanel(self):
         for record in self.genepanel['data']:
             effect = p.predict(record['chrom'],
@@ -86,11 +90,10 @@ class TestSplicePredict(TestCase):
                                record['alt'],
                                refseq=REFSEQ,
                                genepanel=self.genepanel['genepanel'])
-            print effect
             for key in set(self.genepanel['data'][0].keys()) - set(['chrom', 'pos', 'ref', 'alt']):
                 assert effect[0][0][key] == record[key]
                     
-    
+
     def test_sequences(self):
         '''
         Check that the wild and mutated sequenced are correct.
@@ -105,5 +108,18 @@ class TestSplicePredict(TestCase):
             for key in set(self.sequences[0].keys()) - set(['chrom', 'pos', 'ref', 'alt']):
                     assert effect[0][0][key] == record[key]
 
+    def test_denovo(self):
+        '''
+        Check that the wild and mutated sequenced are correct.
+        '''
+        for record in self.denovo:
+            effect = p.predict(record['chrom'],
+                               record['pos'],
+                               record['ref'],
+                               record['alt'],
+                               refseq=REFSEQ,
+                               refseqgene=REFSEQGENE)
+            assert effect[0][1]['effect_descr'] == 'de_novo'
+                    
 if __name__ == "__main__":
     unittest.main()
