@@ -14,7 +14,7 @@ class TestSpliceSiteFinder(TestCase):
         # http://genes.mit.edu/burgelab/maxent/Xmaxentscan_scoreseq_acc.html
         assert mes.score("cagGTaagt") == [10.86]
         assert mes.score("gagGTaagt") == [11.08]
-        assert mes.score("taaATaagt") == [-0.12]
+        assert mes.score("taaATaagt") == [0.0]
         assert mes.score("ttccaaacgaacttttgtAGgga") == [2.89]
-        assert mes.score("tgtctttttctgtgtggcAGtgg") == [8.19] 
-        assert mes.score("ttctctcttcagacttatAGcaa") == [-0.08]
+        assert mes.score("tgtctttttctgtgtggcAGtgg") == [8.19]
+        assert mes.score("ttctctcttcagacttatAGcaa") == [0.0]
