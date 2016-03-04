@@ -19,9 +19,9 @@ def main():
         $ python splice_annotate.py --help
         usage: splice_annotate.py [-h] -i INPUT [-o OUTPUT] [--genepanel GENEPANEL]
                                   [--refseqgene REFSEQGENE] [--refseq REFSEQ]
-        
+
         Annotate a VCF with splice site effect prediction.
-        
+
         optional arguments:
           -h, --help            show this help message and exit
           -i INPUT, --input INPUT
@@ -77,27 +77,27 @@ def main():
 
             for record in vcf_reader:
                 effect = splice_predict.predict(chrom=record.CHROM,
-                                       pos=record.POS,
-                                       ref=record.REF,
-                                       alt=record.ALT,
-                                       genepanel=args.genepanel,
-                                       refseqgene=args.refseqgene,
-                                       refseq=args.refseq)  
-    
+                                                pos=record.POS,
+                                                ref=record.REF,
+                                                alt=record.ALT,
+                                                genepanel=args.genepanel,
+                                                refseqgene=args.refseqgene,
+                                                refseq=args.refseq)
+
                 if 'splice' in record.INFO:
                     record.INFO['splice'] = splice_predict.print_vcf(effect)
                 else:
                     record.add_info('splice='+splice_predict.print_vcf(effect))
-    
+
                 vcf_writer.write_record(record)
-    
+
             vcf_handle.close()
             vcf_writer.close()
             shutil.copy(outsock_path, output_filename)
-        
+
         os.close(outfd)
         os.remove(outsock_path)
 
 # ============================================================
-if  __name__ == "__main__":
+if __name__ == "__main__":
     sys.exit(main())

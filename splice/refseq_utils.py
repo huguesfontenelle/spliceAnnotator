@@ -16,32 +16,32 @@ email = "hugues.fontenelle@medisin.uio.no"
 # Human Genome Assembly Data
 # http://www.ncbi.nlm.nih.gov/projects/genome/assembly/grc/human/data/
 RefSeqAccession = {'hg19': {
-    '1':"NC_000001.10",    '2':"NC_000002.11",    '3':"NC_000003.11",
-    '4':"NC_000004.11",    '5':"NC_000005.9",    '6':"NC_000006.11",
-    '7':"NC_000007.13",    '8':"NC_000008.10",    '9':"NC_000009.11",
-    '10':"NC_000010.10",    '11':"NC_000011.9",    '12':"NC_000012.11",
-    '13':"NC_000013.10",    '14':"NC_000014.8",    '15':"NC_000015.9",
-    '16':"NC_000016.9",    '17':"NC_000017.10",    '18':"NC_000018.9",
-    '19':"NC_000019.9",    '20':"NC_000020.10",    '21':"NC_000021.8",
-    '22':"NC_000022.10",    'X':"NC_000023.10",    'Y':"NC_000024.9",
+    '1': "NC_000001.10",    '2': "NC_000002.11",    '3': "NC_000003.11",
+    '4': "NC_000004.11",    '5': "NC_000005.9",    '6': "NC_000006.11",
+    '7': "NC_000007.13",    '8': "NC_000008.10",    '9': "NC_000009.11",
+    '10': "NC_000010.10",    '11': "NC_000011.9",    '12': "NC_000012.11",
+    '13': "NC_000013.10",    '14': "NC_000014.8",    '15': "NC_000015.9",
+    '16': "NC_000016.9",    '17': "NC_000017.10",    '18': "NC_000018.9",
+    '19': "NC_000019.9",    '20': "NC_000020.10",    '21': "NC_000021.8",
+    '22': "NC_000022.10",    'X': "NC_000023.10",    'Y': "NC_000024.9",
 },
 'hg38': {
-    '1':"NC_000001.11",    '2':"NC_000002.12",    '3':"NC_000003.12",
-    '4':"NC_000004.12",    '5':"NC_000005.10",    '6':"NC_000006.12",
-    '7':"NC_000007.14",    '8':"NC_000008.11",    '9':"NC_000009.12",
-    '10':"NC_000010.11",    '11':"NC_000011.10",    '12':"NC_000012.12",
-    '13':"NC_000013.11",    '14':"NC_000014.9",    '15':"NC_000015.10",
-    '16':"NC_000016.10",    '17':"NC_000017.11",    '18':"NC_000018.10",
-    '19':"NC_000019.10",    '20':"NC_000020.11",    '21':"NC_000021.9",
-    '22':"NC_000022.11",    'X':"NC_000023.101",    'Y':"NC_000024.10",
+    '1': "NC_000001.11",    '2': "NC_000002.12",    '3': "NC_000003.12",
+    '4': "NC_000004.12",    '5': "NC_000005.10",    '6': "NC_000006.12",
+    '7': "NC_000007.14",    '8': "NC_000008.11",    '9': "NC_000009.12",
+    '10': "NC_000010.11",    '11': "NC_000011.10",    '12': "NC_000012.12",
+    '13': "NC_000013.11",    '14': "NC_000014.9",    '15': "NC_000015.10",
+    '16': "NC_000016.10",    '17': "NC_000017.11",    '18': "NC_000018.10",
+    '19': "NC_000019.10",    '20': "NC_000020.11",    '21': "NC_000021.9",
+    '22': "NC_000022.11",    'X': "NC_000023.101",    'Y': "NC_000024.10",
 }
 }
 
 try:
-   import cPickle as pickle
+    import cPickle as pickle
 except:
-   import pickle
-   
+    import pickle
+
 __all__ = ["memoize"]
 
 def memoize(function, limit=None):
@@ -71,7 +71,7 @@ def memoize(function, limit=None):
     memoize_wrapper._memoize_origfunc = function
     memoize_wrapper.func_name = function.func_name
     return memoize_wrapper
-    
+
 
 # ------------------------------------------------------------
 def chr_to_refseq(chrom, ref='hg19'):
@@ -120,17 +120,16 @@ def get_auth_from_refseqgene(chrom, pos, refseqgene=None,  ref='hg19'):
             for row in refSeqList:
                 if row[0].strip().startswith('#'):
                     continue
-                if row[2][3:] == chrom \
-                and int(row[4]) <= pos <= int(row[5]):
+                if row[2][3:] == chrom and int(row[4]) <= pos <= int(row[5]):
                     refSeq = row
                     break
-    except Exception as e:
-        raise e
+    except Exception as ex:
+        raise ex
 
     if refSeq == []:
         print 'chr%s:%s Not in a RefSeq transcript\n' % (chrom, str(pos))
         return None
-        
+
     exonList = [(int(x), int(y)) for (x,y) in zip(refSeq[9].rstrip(',').split(','), refSeq[10].rstrip(',').split(','))]
     strand = refSeq[3]
     transcript = refSeq[1]
@@ -142,18 +141,15 @@ def get_auth_from_refseqgene(chrom, pos, refseqgene=None,  ref='hg19'):
     closest_splice_site = exonList[id0][id1]
 
     if strand == '+':
-        splice_type = {0:"Acceptor", 1:"Donor"}[id1]
-    else: # the convention is opposite for - strand!!
-        splice_type = {1:"Acceptor", 0:"Donor"}[id1]
-
-    # returns True if exonic, False if intronic
-    #is_in_exon = any(start <= pos <= end for (start, end) in exonList)
+        splice_type = {0: "Acceptor", 1: "Donor"}[id1]
+    else:  # the convention is opposite for - strand!!
+        splice_type = {1: "Acceptor", 0: "Donor"}[id1]
 
     return {'chrom': chrom,
             'pos': closest_splice_site, 'splice_type': splice_type,
             'strand': strand, 'transcript': transcript}
 
-   
+
 # ------------------------------------------------------------
 def get_auth_from_genepanel(chrom, pos, genepanel=None, ref='hg19'):
     '''Retrieves exon definitions from local genepanel file'''
@@ -164,18 +160,17 @@ def get_auth_from_genepanel(chrom, pos, genepanel=None, ref='hg19'):
             for row in gpList:
                 if row[0].strip().startswith('#'):
                     continue
-                txStart, txEnd= int(row[1]), int(row[2])
-                if row[0] == chrom\
-                and txStart <= pos <= txEnd:
+                txStart, txEnd = int(row[1]), int(row[2])
+                if row[0] == chrom and txStart <= pos <= txEnd:
                     gp = row
                     break
-    except Exception as e:
-        raise e
+    except Exception as ex:
+        raise ex
 
     if gp == []:
         print 'chr%s:%s Not in a genepanel transcript\n' % (chrom, str(pos))
         return None
-        
+
     exonList = [(int(x), int(y)) for (x,y) in zip(gp[12].rstrip(',').split(','), gp[13].rstrip(',').split(','))]
     strand = gp[5]
     transcript = gp[3]
@@ -187,16 +182,13 @@ def get_auth_from_genepanel(chrom, pos, genepanel=None, ref='hg19'):
     closest_splice_site = exonList[id0][id1]
 
     if strand == '+':
-        splice_type = {0:"Acceptor", 1:"Donor"}[id1]
-    else: # the convention is opposite for - strand!!
-        splice_type = {1:"Acceptor", 0:"Donor"}[id1]
-
-    # returns True if exonic, False if intronic
-    #is_in_exon = any(start <= pos <= end for (start, end) in exonList)
+        splice_type = {0: "Acceptor", 1: "Donor"}[id1]
+    else:  # the convention is opposite for - strand!!
+        splice_type = {1: "Acceptor", 0: "Donor"}[id1]
 
     return {'chrom': chrom, 'pos':closest_splice_site, 'splice_type': splice_type,
             'strand': strand, 'transcript': transcript}
-            
+
 
 # ------------------------------------------------------------
 def get_auth_from_NCBI(chrom, pos, ref='hg19'):
@@ -223,23 +215,16 @@ def get_auth_from_NCBI(chrom, pos, ref='hg19'):
         if feature.type == 'mRNA':
             if not feature.sub_features:
                 exonList.append((feature.location.start.position + startpos,
-                                  feature.location.end.position + startpos,
-                                  feature.location.strand))
+                                 feature.location.end.position + startpos,
+                                 feature.location.strand))
             else:
                 for sub_feature in feature.sub_features:
                     exonList.append((sub_feature.location.start.position + startpos,
-                                  sub_feature.location.end.position + startpos,
-                                  sub_feature.location.strand))
+                                     sub_feature.location.end.position + startpos,
+                                     sub_feature.location.strand))
     if not exonList:
         print 'chr%s:%s No authentic splice site nearby\n' % (chrom, str(pos))
         return None
-        
-    # returns True if exonic, False if intronic
-    #is_in_exon = any(start <= self.pos <= end for (start, end, strand) in exonList)
-
-    # min((min( abs(start-pos), abs(end-pos) ) for
-    # (start, end, strand) in exonList))
-    # returns the distance
 
     rel_exons = [(abs(start-pos), abs(end-pos)) for (start, end, s) in exonList]
     a = [(min(e), e.index(min(e))) for i, e in enumerate(rel_exons)]
@@ -247,13 +232,14 @@ def get_auth_from_NCBI(chrom, pos, ref='hg19'):
     id1 = min(a)[1]
     closest_splice_site = exonList[id0][id1]
 
-    strand = {1: "+", -1:"-"}[exonList[id0][2]]
+    strand = {1: "+", -1: "-"}[exonList[id0][2]]
     if strand == '+':
-        splice_type = {0:"Acceptor", 1:"Donor"}[id1]
-    else: # the convention is opposite for - strand!!
-        splice_type = {1:"Acceptor", 0:"Donor"}[id1]
+        splice_type = {0: "Acceptor", 1: "Donor"}[id1]
+    else:  # the convention is opposite for - strand!!
+        splice_type = {1: "Acceptor", 0: "Donor"}[id1]
 
-    return {'chrom': chrom, 'pos':closest_splice_site-1, 'splice_type': splice_type,
+    return {'chrom': chrom, 'pos': closest_splice_site-1,
+            'splice_type': splice_type,
             'strand': strand, 'transcript': refseq_id}
 
 
@@ -267,7 +253,6 @@ def get_closest_authentic(chrom, pos, refseqgene=None, genepanel=None, ref='hg19
     Eg:
     {'pos': 32944538, 'splice_type': 'Acceptor', 'strand': '+', 'transcript': 'NM_000059'}
     '''
-    #auth = {'pos': None, 'splice_type': None, 'strand': None, 'transcript': None}
     if chrom.startswith("chr"): chrom = chrom[3:]
     if refseqgene:
         auth = get_auth_from_refseqgene(chrom, pos, refseqgene=refseqgene, ref='hg19')
@@ -278,10 +263,10 @@ def get_closest_authentic(chrom, pos, refseqgene=None, genepanel=None, ref='hg19
 
     if auth and get_sequence:
         auth['fasta'] = get_fasta(chrom=auth['chrom'], start=auth['pos']-seq_size, end=auth['pos']+seq_size, refseq=refseq)
-        
+
     return auth
 
 
 # ============================================================
-if  __name__ == "__main__":
+if __name__ == "__main__":
     pass

@@ -7,6 +7,7 @@ Tests for the diverse splice finder algorithms.
 from unittest import TestCase
 from splice import max_ent_scan as mes
 
+
 class TestSpliceSiteFinder(TestCase):
 
     def test_MaxEntScan(self):

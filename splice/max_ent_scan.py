@@ -19,8 +19,8 @@ import inspect
 import tempfile
 import subprocess
 
-
 REL_PATH_TO_3RDPARTY = '../thirdparty/maxentscan/'
+
 
 def reverse_complement(seq):
     '''
@@ -37,26 +37,26 @@ def score(seq, strand='+'):
     '''
     plus_strand = ['+', 'forward', '1', 1]
     minus_strand = ['-', 'reverse', '-1', -1]
-    
+
     if type(seq) is str:
         seq = [seq]
-        
+
     assert strand in plus_strand or minus_strand
     for s in seq:
         assert len(s) in [9, 23]
         assert set(s.upper()) <= set('ATCG')
-    
+
     # guess splice type from sequence length
     if len(seq[0]) == 9:
         program = "score5.pl"
-        dimer=('GT', 3)
+        dimer = ('GT', 3)
     elif len(seq[0]) == 23:
         program = "score3.pl"
-        dimer=('AG', 18)
-    
+        dimer = ('AG', 18)
+
     if strand in minus_strand:
         seq = [reverse_complement(s) for s in seq]
-    
+
     path = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
     path = os.path.join(path, REL_PATH_TO_3RDPARTY)
 
@@ -76,15 +76,15 @@ def score(seq, strand='+'):
 
     score = filter(None, score)
     score = [float(line.split('\t')[-1]) for line in score]
-        
-    # ensure that minimum score is 0.0:    
+
+    # ensure that minimum score is 0.0:
     score = [max(score1, 0.0) for seq1, score1 in zip(seq, score)]
     # ensures that non- GT/AG get scored 0.0:
     score = [score1 if seq1[dimer[1]:dimer[1]+2]==dimer[0] else 0.0 for seq1, score1 in zip(seq, score)]
 
     return score
-    
-    
+
+
 if __name__ == '__main__':
     seq = ['CAGGTAAGT',
            'CAGTTAAGT',
@@ -99,8 +99,4 @@ if __name__ == '__main__':
            'ttttttttttttttttttAGttt']
     mes = score(seq)
     for seq1, mes1 in zip(seq, mes):
-        print seq1, ':', mes1     
-    
-    
-    
-    
+        print seq1, ':', mes1
