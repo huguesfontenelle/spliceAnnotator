@@ -15,10 +15,12 @@ SEQ_HALF_SIZE = 50  # half-length of the FASTA sequence retrieved around the spl
 EFFECT_KEYWORD = {
     'LOST': 'predicted_lost',                  # the splice site is predicted to be lost
     'CONSERVED': 'predicted_conserved',        # the splice site is predicted to be conserved
-    'NO_EFFECT': 'no_effect',                  # the variant does not impact the splice site (therefore it is conserved)
+    'NO_EFFECT': 'consensus_not_affected',     # the variant does not impact the splice site (therefore it is conserved)
     'DE_NOVO': 'de_novo',                      # the variant creates or re-inforces a 'de novo' cryptic splice site
-    'NOT_IN_TRANSCRIPT': 'not_in_transcript',  # the variant is not in an available transcript region
+    'NOT_TRANSCRIBED': 'not_transcribed',      # the variant is not in the unspliced transcript (pre-mRNA) region
     'NOT_AVAILABLE': 'NA',                     # the prediction failed and is therefore not available
+    'SPLICE_DONOR_VARIANT': 'splice_donor_variant',  # (VEP-style annotation of) a splice variant that changes the 2 base pair region at the 5' end of an intron.
+    'SPLICE_ACCEPTOR_VARIANT': 'splice_acceptor_variant',  # (VEP-style annotation of) a splice variant that changes the 2 base region at the 3' end of an intron.
 }
 
 
@@ -52,8 +54,12 @@ def predict_one(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=No
                                     refseqgene=refseqgene, genepanel=genepanel)
     effect_denovo = predict_de_novo(chrom, pos, ref, alt, refseq=refseq,
                                     refseqgene=refseqgene, genepanel=genepanel)
+    effect_2bp_conserved = annotate_2bp_conserved(chrom, pos, ref, alt,
+                                                  refseq=refseq,
+                                                  refseqgene=refseqgene,
+                                                  genepanel=genepanel)
 
-    return effect_auth + effect_denovo
+    return effect_auth + effect_denovo + effect_2bp_conserved
 
 
 # ------------------------------------------------
@@ -138,7 +144,7 @@ def predict_lost_auth(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepa
                                     genepanel=genepanel, refseq=refseq,
                                     get_sequence=True, seq_size=SEQ_HALF_SIZE)
     if not auth:
-        return [{'effect_descr': EFFECT_KEYWORD['NOT_IN_TRANSCRIPT']}]
+        return [{'effect_descr': EFFECT_KEYWORD['NOT_TRANSCRIBED']}]
 
     dist = pos - auth['pos']
 
@@ -201,6 +207,48 @@ def predict_lost_auth(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepa
     return [effect]
 
 # ------------------------------------------------
+def annotate_2bp_conserved(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=None):
+    '''
+    Annotate if the conserved 2-base-pairs around the splice site are affected.
+    This is similar to VEP where `splice_donor_variant` and
+    `splice_acceptor_variant` is used for variants affecting GT/AG.
+    Note that prediction is still handled by predict_lost_auth()
+    '''
+
+    auth = rf.get_closest_authentic(chrom=chrom, pos=pos, refseqgene=refseqgene,
+                                    genepanel=genepanel, refseq=refseq,
+                                    get_sequence=True, seq_size=SEQ_HALF_SIZE)
+    if not auth:
+        return []
+
+    dist = pos - auth['pos']
+
+    conserved_2bp = {
+        ('Donor', '+'): [1, 2],
+        ('Acceptor', '+'): [-1, 0],
+        ('Donor', '-'): [-1, 0],
+        ('Acceptor', '-'): [1, 2],
+    }
+
+    # import pdb; pdb.set_trace()
+
+    if dist in conserved_2bp[(auth['splice_type'], auth['strand'])]:
+        if auth['splice_type'] == 'Donor':
+            effect_descr = EFFECT_KEYWORD['SPLICE_DONOR_VARIANT']
+        else:
+            effect_descr = EFFECT_KEYWORD['SPLICE_ACCEPTOR_VARIANT']
+
+        effect = {'effect_descr': effect_descr,
+                  'distance': dist,
+                  'auth_pos': auth['pos'],
+                  'splice_type': auth['splice_type'],
+                  'strand': auth['strand'],
+                  'transcript': auth['transcript']}
+        return [effect]
+
+    return []
+
+# ------------------------------------------------
 def print_vcf(effects):
     '''
     Here comes the VCF formatting
@@ -210,7 +258,7 @@ def print_vcf(effects):
     for allele_effect in effects:
         s = list()
         for single_effect in allele_effect:
-            if single_effect['effect_descr'] == EFFECT_KEYWORD['NOT_IN_TRANSCRIPT']:
+            if single_effect['effect_descr'] == EFFECT_KEYWORD['NOT_TRANSCRIBED']:
                 s += [single_effect['effect_descr']]
             elif single_effect['effect_descr'] in [EFFECT_KEYWORD['NO_EFFECT'], EFFECT_KEYWORD['CONSERVED'], EFFECT_KEYWORD['LOST']]:
                 s += ['|'.join([single_effect['transcript'],
@@ -227,6 +275,8 @@ def print_vcf(effects):
                                 str(single_effect['auth_score']),
                                 str(single_effect['distance']),
                                 ])]
+            elif single_effect['effect_descr'] == EFFECT_KEYWORD['SPLICE_DONOR_VARIANT']:
+                s += [single_effect['effect_descr']]
             else:
                 s += ['NOT_IMPLEMENTED']
         p += ['&'.join(s)]
