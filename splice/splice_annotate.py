@@ -5,7 +5,7 @@ SpliceAnnotate
 @author: Hugues Fontenelle, 2015
 '''
 
-__version__ = '0.2'
+__version__ = '0.3'
 
 import argparse, sys, os
 import vcf
@@ -63,7 +63,7 @@ def main():
 
         vcf_handle = open(input_filename, 'r')
         vcf_reader = vcf.Reader(vcf_handle)
-        vcf_info_desc = 'Splice effect. Format: Transcript|Effect|MaxEntScan-wild|MaxEntScan-mut'
+        vcf_info_desc = 'Splice effect. Format: Transcript|Effect|MaxEntScan-wild|MaxEntScan-mut|MaxEntScan-closest|dist'
         vcf_reader.infos['splice'] = VcfInfo(id='splice',
                                              num=1,
                                              type='String',

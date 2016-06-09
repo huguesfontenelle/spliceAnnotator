@@ -1,2 +1,14 @@
-v0.1, 13-Apr-15 -- version 0.1
-v0.2, 22-Feb-16 -- version 0.2
+# Release notes
+
+## v0.3, 09-Jun-16 -- version 0.3
+
+### Bug fixes:
+
+- header is incomplete for de_novo
+- transcript missing for splice_donor_variant
+- missing splice_acceptor_variant
+- fix README
+
+## v0.2, 22-Feb-16 -- version 0.2
+
+## v0.1, 13-Apr-15 -- version 0.1
