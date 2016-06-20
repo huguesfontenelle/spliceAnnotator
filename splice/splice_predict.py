@@ -275,8 +275,10 @@ def print_vcf(effects):
                                 str(single_effect['auth_score']),
                                 str(single_effect['distance']),
                                 ])]
-            elif single_effect['effect_descr'] == EFFECT_KEYWORD['SPLICE_DONOR_VARIANT']:
-                s += [single_effect['effect_descr']]
+            elif single_effect['effect_descr'] in [ EFFECT_KEYWORD['SPLICE_DONOR_VARIANT'], EFFECT_KEYWORD['SPLICE_ACCEPTOR_VARIANT'] ]:
+                s += ['|'.join([single_effect['transcript'],
+                                single_effect['effect_descr']
+                                ])]
             else:
                 s += ['NOT_IMPLEMENTED']
         p += ['&'.join(s)]

@@ -25,9 +25,10 @@ This library automates the annotation of variants with MaxEntScan [1]. It predic
 - `splice=` is the INFO keyword for this annotation, it is followed by the transcript for which this prediction is valid, the predicted effect, the MaxEntScan score for the wild type and the score for the variant type. The fields are separated by `|` (pipes).
 - `predicted_lost` means the the variant score dropped significantly with respect to the wild type score.
 - `predicted_conserved` means the score did not drop significantly, or not at all
-- `no_effect` means the nucleotide sequence of the authentic splice site was not affected by the variant.
+- `consensus_not_affected` means the nucleotide sequence of the authentic splice site was not affected by the variant.
 From Burge's paper for the MaxEntScan implementation, we know that "5' donors" are 9-mer with a consensus GT after the junction; and that "3' acceptors" are 23-mer with a consensus AG before the junction. Sites that do not conform to the canonical AG/GT are not taken into consideration (there exists no known algorithm that can).
-- In addition, a variant may be annotated with `not_in_transcript` if it falls outside a transcript; or with `NA` if something has failed.
+- SNP's within +/- 2bp from junctions are annotated with `splice_donor_variant` or `splice_acceptor_variant` in a way similar to VEP.
+- In addition, a variant may be annotated with `not_transcribed` if it falls outside a transcript; or with `NA` if something has failed.
 
 ### De novo: putative new splice Sites
 
@@ -37,7 +38,7 @@ From Burge's paper for the MaxEntScan implementation, we know that "5' donors" a
 2    162041853    id5    T    G .    .   splice=NM_004180.2|no_effect|6.64|6.64&NM_004180.2|de_novo|0.0|10.86|6.64|5581
 ```
 
-Several effects are joined with the `&` character. Here the variant are scored for their effect on the authentic splice site, but in addition "de novo" sites were found. Following the `de_novo` keyword is the MaxEntScan score of the wild sequence in that position, the score of the de novo site in that position, the score of the closest authentic site, and the distance (in nucleotides) to the closest authentic site.
+Several effects are joined with the `&` character. Here the variant are scored for their effect on the authentic splice site, but in addition "de novo" sites were found. Following the `de_novo` keyword is the transcript name and the MaxEntScan score of the wild sequence in that position, the score of the de novo site in that position, the score of the closest authentic site, and the distance (in nucleotides) to the closest authentic site.
 The rules for marking a de novo are:
 * If MES score for REF is 0, report "de novo" if score for ALT is ≥4
 * If MES score for REF is >0 , report "de novo" if score for ALT is ≥ 25% increased compared to REF score
