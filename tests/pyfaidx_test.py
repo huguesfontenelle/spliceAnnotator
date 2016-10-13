@@ -5,11 +5,10 @@ Created on Mon Apr 13 15:20:04 2015
 @author: huguesfo
 """
 
-REFSEQ = "/Users/huguesfo/genevar/vcpipe-bundle/genomic/gatkBundle_2.5/human_g1k_v37_decoy.fasta" # RefSeq FASTA sequences (hg19)
-
-
 from pyfaidx import Fasta
 from unittest import TestCase
+from settings import settings
+REFSEQ = settings.concatBundlePath(settings.getBundle()['reference']['fasta'])
 
 
 class TestPyfaidx(TestCase):
@@ -23,7 +22,7 @@ class TestPyfaidx(TestCase):
 
         assert fasta.seq == 'GAAGCATGTC'
         assert fasta.orientation == 1
-        assert fasta.start == start
+        assert fasta.start == start + 1
         assert fasta.end == end
 
         assert rc.seq == 'GACATGCTTC'

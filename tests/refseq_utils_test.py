@@ -8,10 +8,13 @@ Created on Wed Dec  3 12:39:58 2014
 import unittest
 from unittest import TestCase
 from splice import refseq_utils as rf
+from settings import settings
 
-REFSEQGENE = "/Users/huguesfo/genevar/vcpipe-bundle/funcAnnot/refseq/refGene_131119.tab" # RefSeqGene definitions
-REFSEQ = "/Users/huguesfo/genevar/vcpipe-bundle/genomic/gatkBundle_2.5/human_g1k_v37_decoy.fasta" # RefSeq FASTA sequences (hg19)
-GENEPANEL = "/Users/huguesfo/genevar/vcpipe-bundle/clinicalGenePanels/Bindevev_v02/Bindevev_v02.transcripts.csv"
+
+REFSEQGENE = settings.concatBundlePath('funcAnnot/refseq/refGene_131119.tab')
+REFSEQ = settings.concatBundlePath(settings.getBundle()['reference']['fasta'])
+GENEPANEL = settings.concatBundlePath(settings.getBundle()['clinicalGenePanels']['Bindevev_v02']['transcripts'])
+
 
 class TestRefseqUtils(TestCase):
 
@@ -60,6 +63,7 @@ class TestRefseqUtils(TestCase):
             fasta = rf.get_fasta(data['chrom'], data['start'], data['end'], refseq=REFSEQ)
             self.assertEqual(fasta, data['fasta'])
 
+    @unittest.skip("No internet")
     def test_fasta_NCBI(self):
         for data in self.data:
             fasta = rf.get_fasta(data['chrom'], data['start'], data['end'])
@@ -73,6 +77,7 @@ class TestRefseqUtils(TestCase):
             auth = rf.get_closest_authentic(data['chrom'], data['pos'], refseqgene=REFSEQGENE)
             self.assertEqual({k:auth[k] for k in ['pos', 'splice_type', 'strand']}, data['authentic'])
 
+    @unittest.skip("No internet")
     def test_auth_NCBI(self):
         for data in self.data:
             auth = rf.get_closest_authentic(data['chrom'], data['pos'])

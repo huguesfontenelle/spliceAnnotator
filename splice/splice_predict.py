@@ -291,9 +291,10 @@ def main():
     '''
     Testing
     '''
-    refseqgene = "/Users/huguesfo/genevar/vcpipe-bundle/funcAnnot/refseq/refGene_131119.tab"  # RefSeqGene definitions
-    refseq = "/Users/huguesfo/genevar/vcpipe-bundle/genomic/gatkBundle_2.5/human_g1k_v37_decoy.fasta"  # RefSeq FASTA sequences (hg19)
-    genepanel = "/Users/huguesfo/genevar/vcpipe-bundle/clinicalGenePanels/Bindevev_v02/Bindevev_v02.transcripts.csv"  # gene panel transcript file
+    from settings import settings
+    REFSEQGENE = settings.concatBundlePath('funcAnnot/refseq/refGene_131119.tab')
+    REFSEQ = settings.concatBundlePath(settings.getBundle()['reference']['fasta'])
+    GENEPANEL = settings.concatBundlePath(settings.getBundle()['clinicalGenePanels']['Bindevev_v02']['transcripts'])
 
     records = [
         ('2', 162060108, 'T', 'A'),  # SNP after junction

@@ -7,10 +7,11 @@ Tests for SplicePredict.
 import unittest
 from unittest import TestCase, SkipTest
 from splice import splice_predict as p
+from settings import settings
 
-REFSEQGENE = "/Users/huguesfo/genevar/vcpipe-bundle/funcAnnot/refseq/refGene_150311.tsv" # RefSeqGene definitions
-REFSEQ = "/Users/huguesfo/genevar/vcpipe-bundle/genomic/gatkBundle_2.5/human_g1k_v37_decoy.fasta" # RefSeq FASTA sequences (hg19)
-GENEPANEL = "/Users/huguesfo/genevar/vcpipe-bundle/clinicalGenePanels/Bindevev_v02/Bindevev_v02.transcripts.csv"
+REFSEQGENE = settings.concatBundlePath('funcAnnot/refseq/refGene_150311.tsv')
+REFSEQ = settings.concatBundlePath(settings.getBundle()['reference']['fasta'])
+GENEPANEL = settings.concatBundlePath(settings.getBundle()['clinicalGenePanels']['Bindevev_v02']['transcripts'])
 
 
 class TestSplicePredict(TestCase):
@@ -56,7 +57,7 @@ class TestSplicePredict(TestCase):
             'wild_seq': 'AAGGTATGT', 'mut_seq': 'CAGGTATGT', 'mut_score':9.8}  # GIN-564
         ]
         self.genepanel = {
-            'genepanel': "/Users/huguesfo/genevar/vcpipe-bundle/clinicalGenePanels/Bindevev_v02/Bindevev_v02.transcripts.csv",
+            'genepanel': GENEPANEL,
             'data': [
                 {'chrom': '1', 'pos':12017900, 'ref': 'T', 'alt': 'A', 'transcript': 'NM_000302.3'},
                 {'chrom': '2', 'pos':189859061, 'ref': 'A', 'alt': 'AAG', 'transcript': 'NM_000090.3'},
@@ -103,7 +104,6 @@ class TestSplicePredict(TestCase):
     def printvar(self, record):
         return record['chrom'] + ':' + str(record['pos']) + record['ref'] + '>' + record['alt']
 
-    @SkipTest
     def test_refseqgene(self):
         for record in self.data:
             effect = p.predict(record['chrom'],
@@ -115,7 +115,6 @@ class TestSplicePredict(TestCase):
             for key in self.keys:
                 assert key in effect[0][0]
 
-    @SkipTest
     def test_genepanel(self):
         for record in self.genepanel['data']:
             effect = p.predict(record['chrom'],
@@ -127,7 +126,6 @@ class TestSplicePredict(TestCase):
             for key in set(self.genepanel['data'][0].keys()) - set(['chrom', 'pos', 'ref', 'alt']):
                 assert effect[0][0][key] == record[key]
 
-    @SkipTest
     def test_sequences(self):
         '''
         Check that the wild and mutated sequenced are correct.
@@ -142,7 +140,6 @@ class TestSplicePredict(TestCase):
             for key in set(self.sequences[0].keys()) - set(['chrom', 'pos', 'ref', 'alt']):
                     assert effect[0][0][key] == record[key]
 
-    @SkipTest
     def test_denovo(self):
         '''
         Check that the wild and mutated sequenced are correct.
