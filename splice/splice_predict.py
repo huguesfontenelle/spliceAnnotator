@@ -90,7 +90,10 @@ def predict_de_novo(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepane
         fasta_atpos_mut = fasta_atpos[:SEQ_HALF_SIZE] + mes.reverse_complement(alt) + fasta_atpos[SEQ_HALF_SIZE+len(ref):]
 
     wild = auth['fasta'][SEQ_HALF_SIZE+s:SEQ_HALF_SIZE+e]
-    wild_score = mes.score(wild)
+    try:
+        wild_score = mes.score(wild)
+    except Exception:
+        return [{'effect_descr': EFFECT_KEYWORD['NOT_AVAILABLE']}]
 
     ff = lambda x: -s+1 < x < 2*SEQ_HALF_SIZE-e-1
     idx_mut = [m.start()-1 for m in re.finditer(dimer[auth['splice_type']], fasta_atpos_mut)]
@@ -105,8 +108,13 @@ def predict_de_novo(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepane
                    and len(dn[0]) == len(dn[1]) in [9, 23]]
     if not denovo_seqs:
         return []
-    denovo_scores_w = mes.score([dm[0] for dm in denovo_seqs])
-    denovo_scores_m = mes.score([dm[1] for dm in denovo_seqs])
+    try:
+        denovo_scores_w = mes.score([dm[0] for dm in denovo_seqs])
+        denovo_scores_m = mes.score([dm[1] for dm in denovo_seqs])
+    except AssertionError:
+        print 'AssertionError when predicting de novo splice site'
+        print '%s:%i%s>%s (wild "%s" --> mut "%s")' % (chrom, pos, ref, alt, dm[0], dm[1])
+        return [{'effect_descr': EFFECT_KEYWORD['NOT_AVAILABLE']}]
 
     effects = []
     for seq, score_w, score_m in zip(denovo_seqs, denovo_scores_w, denovo_scores_m):
