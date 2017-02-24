@@ -5,16 +5,21 @@ SpliceAnnotate
 @author: Hugues Fontenelle, 2015
 '''
 
-__version__ = '0.3'
+__version__ = '0.4'
 
 import argparse, sys, os
 import vcf
 import tempfile, shutil
 from vcf.parser import _Info as VcfInfo
 from splice import splice_predict
+from multiprocessing import Pool
+import StringIO
+
+HEADER_INFO = '##INFO=<ID=splice,Number=1,Type=String,Description="Splice effect. Format: Transcript|Effect|MaxEntScan-wild|MaxEntScan-mut|MaxEntScan-closest|dist">'
+
 
 # ============================================================
-def main():
+if __name__ == "__main__":
         '''
         $ python splice_annotate.py --help
         usage: splice_annotate.py [-h] -i INPUT [-o OUTPUT] [--genepanel GENEPANEL]
@@ -61,43 +66,64 @@ def main():
         else:
             output_filename = args.output
 
-        vcf_handle = open(input_filename, 'r')
-        vcf_reader = vcf.Reader(vcf_handle)
-        vcf_info_desc = 'Splice effect. Format: Transcript|Effect|MaxEntScan-wild|MaxEntScan-mut|MaxEntScan-closest|dist'
-        vcf_reader.infos['splice'] = VcfInfo(id='splice',
-                                             num=1,
-                                             type='String',
-                                             desc=vcf_info_desc,
-                                             source='AMG-OUS-splice',
-                                             version=__version__)
+        with open(output_filename, 'w') as vcf_output:
 
-        outfd, outsock_path = tempfile.mkstemp(suffix='.vcf', prefix='annotate', dir=None, text=True)
-        with open(outsock_path, 'w') as output_file:
-            vcf_writer = vcf.Writer(output_file, vcf_reader)
+            result_list = []
 
-            for record in vcf_reader:
-                effect = splice_predict.predict(chrom=record.CHROM,
-                                                pos=record.POS,
-                                                ref=record.REF,
-                                                alt=record.ALT,
+            def flush(result_list):
+                for line in result_list:
+                    vcf_output.write(line)
+
+            def log_result(line):
+                global result_list
+                result_list.append(line)
+                if len(result_list) >= 100:
+                    flush(result_list)
+                    result_list = []
+
+            def process(line):
+                elems = line.split('\t')
+                effect = splice_predict.predict(chrom=elems[0],
+                                                pos=int(elems[1]),
+                                                ref=elems[3],
+                                                alt=elems[4].split(','),
                                                 genepanel=args.genepanel,
                                                 refseqgene=args.refseqgene,
                                                 refseq=args.refseq)
-
-                if 'splice' in record.INFO:
-                    record.INFO['splice'] = splice_predict.print_vcf(effect)
+                INFO = elems[7]
+                new_INFO = []
+                if 'splice=' not in INFO:
+                    new_INFO = [INFO, splice_predict.print_vcf(effect)]
                 else:
-                    record.add_info('splice='+splice_predict.print_vcf(effect))
+                    for info_item in INFO.split(';'):
+                        if info_item.startswith('splice='):
+                            new_INFO.append('splice=' + splice_predict.print_vcf(effect))
+                        else:
+                            new_INFO.append(info_item)
 
-                vcf_writer.write_record(record)
+                new_line= '\t'.join(elems[:6] + [';'.join(new_INFO)] + elems[8:])
+                return new_line
 
-            vcf_handle.close()
-            vcf_writer.close()
-            shutil.copy(outsock_path, output_filename)
+            def write_header(vcf_input):
+                vcf_reader = vcf.Reader(vcf_input)
+                vcf_info_desc = 'Splice effect. Format: Transcript|Effect|MaxEntScan-wild|MaxEntScan-mut|MaxEntScan-closest|dist'
+                vcf_reader.infos['splice'] = VcfInfo(id='splice',
+                                                     num=1,
+                                                     type='String',
+                                                     desc=vcf_info_desc,
+                                                     source='AMG-OUS-splice',
+                                                     version=__version__)
+                vcf.Writer(vcf_output, vcf_reader)
+            
+            with open(input_filename, 'r') as vcf_input:
+                write_header(vcf_input)
 
-        os.close(outfd)
-        os.remove(outsock_path)
-
-# ============================================================
-if __name__ == "__main__":
-    sys.exit(main())
+                pool = Pool(processes=8)
+                for line in vcf_input:
+                    if line.startswith('#'):
+                        pass
+                    else:
+                        pool.apply_async(process, args=(line, ), callback=log_result)
+                pool.close()
+                pool.join()
+                flush(result_list)
