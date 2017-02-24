@@ -12,6 +12,25 @@ import vcf
 from vcf.parser import _Info as VcfInfo
 from splice import splice_predict
 from multiprocessing import Pool
+import tempfile, shutil
+import subprocess
+import os
+
+
+def sort_vcf(fname):
+    '''Due to multithreading, splice_annotate does not keep the VCF sorted'''
+    outfd, outsock_path = tempfile.mkstemp(suffix='.vcf', prefix='sort', dir=None, text=True)
+    with open(outsock_path, 'w') as output_file:
+        # sorting VCF
+        # grep ^# input.vcf > output.vcf
+        subprocess.call(['grep', '^#', fname], stdout=output_file, stderr=subprocess.STDOUT)
+        # grep -v ^# input.vcf | sort -V -k1 -k2 >> output.vcf
+        p1 = subprocess.Popen(['grep', '-v', '^#', fname], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        p2 = subprocess.Popen(['sort', '-V', '-k1', '-k2'], stdin=p1.stdout, stdout=output_file, stderr=subprocess.STDOUT)
+        output = p2.communicate()
+        shutil.copy(outsock_path, fname)
+    os.close(outfd)
+    os.remove(outsock_path)
 
 
 # ============================================================
@@ -38,10 +57,12 @@ if __name__ == "__main__":
           -nt NT                Number of threads (default=8)
 
         Example usage:
-        $ python splice_annotate.py -i data/case_study0.vcf -o data/case_study0_annot.vcf -t EEogPU_v02.transcripts.csv -R human_g1k_v37_decoy.fasta
+        $ python splice_annotate.py -i data/case_study0.vcf -o data/case_study0_annot.vcf -t HBOC_OUS_medGen_v00_b37.transcripts.csv -R human_g1k_v37_decoy.fasta
         $ python splice_annotate.py -i data/case_study0.vcf -o data/case_study0_annot.vcf -refGene refGene_131119.tab -R human_g1k_v37_decoy.fasta
         '''
-        parser = argparse.ArgumentParser(description='Annotate a VCF with splice site effect prediction.')
+        parser = argparse.ArgumentParser(
+            description='Annotate a VCF with splice site effect prediction.',
+            epilog='Remark: The VCF is sorted with UNIX bash sort, not using the contigs. This is fine for most purposes.')
         parser.add_argument('-i', '--input', type=str, required=True,
                             help='Input VCF file')
         parser.add_argument('-o', '--output', type=str, required=True,
@@ -119,3 +140,5 @@ if __name__ == "__main__":
                 pool.close()
                 pool.join()
                 flush(result_list)
+
+        sort_vcf(args.output)
