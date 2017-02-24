@@ -35,6 +35,7 @@ if __name__ == "__main__":
           --refGene REFGENE     Filepath for refGene
           -R REFSEQ, --refseq REFSEQ
                                 Filepath for RefSeq (reference FASTA sequence)
+          -nt NT                Number of threads (default=8)
 
         Example usage:
         $ python splice_annotate.py -i data/case_study0.vcf -o data/case_study0_annot.vcf -t EEogPU_v02.transcripts.csv -R human_g1k_v37_decoy.fasta
@@ -51,6 +52,9 @@ if __name__ == "__main__":
                             help='Filepath for refGene')
         parser.add_argument('-R', '--refseq', type=str, required=True,
                             help='Filepath for RefSeq (reference FASTA sequence)')
+        parser.add_argument('-nt', type=int, required=False, default=8,
+                            help='Number of threads (default=8)')
+
         args = parser.parse_args()
         assert args.genepanel or args.refGene
 
@@ -106,7 +110,7 @@ if __name__ == "__main__":
             with open(args.input, 'r') as vcf_input:
                 write_header(vcf_input)
 
-                pool = Pool(processes=8)
+                pool = Pool(processes=args.nt)
                 for line in vcf_input:
                     if line.startswith('#'):
                         pass
