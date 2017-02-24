@@ -7,23 +7,19 @@ SpliceAnnotate
 
 __version__ = '0.4'
 
-import argparse, sys, os
+import argparse
 import vcf
-import tempfile, shutil
 from vcf.parser import _Info as VcfInfo
 from splice import splice_predict
 from multiprocessing import Pool
-import StringIO
-
-HEADER_INFO = '##INFO=<ID=splice,Number=1,Type=String,Description="Splice effect. Format: Transcript|Effect|MaxEntScan-wild|MaxEntScan-mut|MaxEntScan-closest|dist">'
 
 
 # ============================================================
 if __name__ == "__main__":
         '''
-        $ python splice_annotate.py --help
-        usage: splice_annotate.py [-h] -i INPUT [-o OUTPUT] [--genepanel GENEPANEL]
-                                  [--refseqgene REFSEQGENE] [--refseq REFSEQ]
+        $ python splice/splice_annotate.py --help
+        usage: splice_annotate.py [-h] -i INPUT [-o OUTPUT] [-t GENEPANEL]
+                                  [--refGene REFGENE] [-R REFSEQ]
 
         Annotate a VCF with splice site effect prediction.
 
@@ -34,39 +30,31 @@ if __name__ == "__main__":
           -o OUTPUT, --output OUTPUT
                                 Output VCF file for annotation of predictions
                                 (default=same as input)
-          --genepanel GENEPANEL
+          -t GENEPANEL, --genepanel GENEPANEL
                                 Filepath for genepanel
-          --refseqgene REFSEQGENE
-                                Filepath for refSeqGene
-          --refseq REFSEQ       Filepath for refSeq reference FASTA sequences
-
+          --refGene REFGENE     Filepath for refGene
+          -R REFSEQ, --refseq REFSEQ
+                                Filepath for RefSeq (reference FASTA sequence)
 
         Example usage:
-        $ python splice_annotate.py -i data/case_study0.vcf
-        $ python splice_annotate.py -i data/case_study0.vcf -o data/case_study0_annot.vcf
-        $ python splice_annotate.py -i data/case_study0.vcf --genepanel HBOC_OUS_medGen_v00_b37.transcripts.csv --refseq b37/human_g1k_v37_decoy.fasta
-        $ python splice_annotate.py -i data/case_study0.vcf --refseqgene b37/refSeq/refGene_131119.tab --refseq b37/human_g1k_v37_decoy.fasta
+        $ python splice_annotate.py -i data/case_study0.vcf -o data/case_study0_annot.vcf -t EEogPU_v02.transcripts.csv -R human_g1k_v37_decoy.fasta
+        $ python splice_annotate.py -i data/case_study0.vcf -o data/case_study0_annot.vcf -refGene refGene_131119.tab -R human_g1k_v37_decoy.fasta
         '''
         parser = argparse.ArgumentParser(description='Annotate a VCF with splice site effect prediction.')
         parser.add_argument('-i', '--input', type=str, required=True,
                             help='Input VCF file')
-        parser.add_argument('-o', '--output', type=str, required=False,
-                            help='Output VCF file for annotation of predictions (default=same as input)')
-        parser.add_argument('--genepanel', type=str, required=False,
+        parser.add_argument('-o', '--output', type=str, required=True,
+                            help='Output VCF file for annotation of predictions')
+        parser.add_argument('-t', '--genepanel', type=str, required=False,
                             help='Filepath for genepanel')
-        parser.add_argument('--refseqgene', type=str, required=False,
-                            help='Filepath for refSeqGene')
-        parser.add_argument('--refseq', type=str, required=False,
-                            help='Filepath for refSeq reference FASTA sequences')
-
+        parser.add_argument('--refGene', type=str, required=False,
+                            help='Filepath for refGene')
+        parser.add_argument('-R', '--refseq', type=str, required=True,
+                            help='Filepath for RefSeq (reference FASTA sequence)')
         args = parser.parse_args()
-        input_filename = args.input
-        if not args.output:
-            output_filename = input_filename
-        else:
-            output_filename = args.output
+        assert args.genepanel or args.refGene
 
-        with open(output_filename, 'w') as vcf_output:
+        with open(args.output, 'w') as vcf_output:
 
             result_list = []
 
@@ -88,7 +76,7 @@ if __name__ == "__main__":
                                                 ref=elems[3],
                                                 alt=elems[4].split(','),
                                                 genepanel=args.genepanel,
-                                                refseqgene=args.refseqgene,
+                                                refseqgene=args.refGene,
                                                 refseq=args.refseq)
                 INFO = elems[7]
                 new_INFO = []
@@ -101,7 +89,7 @@ if __name__ == "__main__":
                         else:
                             new_INFO.append(info_item)
 
-                new_line= '\t'.join(elems[:6] + [';'.join(new_INFO)] + elems[8:])
+                new_line = '\t'.join(elems[:6] + [';'.join(new_INFO)] + elems[8:])
                 return new_line
 
             def write_header(vcf_input):
@@ -114,8 +102,8 @@ if __name__ == "__main__":
                                                      source='AMG-OUS-splice',
                                                      version=__version__)
                 vcf.Writer(vcf_output, vcf_reader)
-            
-            with open(input_filename, 'r') as vcf_input:
+
+            with open(args.input, 'r') as vcf_input:
                 write_header(vcf_input)
 
                 pool = Pool(processes=8)
