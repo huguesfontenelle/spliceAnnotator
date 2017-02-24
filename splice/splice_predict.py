@@ -25,7 +25,7 @@ EFFECT_KEYWORD = {
 
 
 # ------------------------------------------------
-def predict(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=None):
+def predict(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=None, denovo=True):
     '''
     Predicts
     '''
@@ -40,26 +40,27 @@ def predict(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=None):
 
     effects = list()
     for alt1 in alt:
-        effects.append(predict_one(chrom, pos, ref, str(alt1), refseq=refseq, refseqgene=refseqgene, genepanel=genepanel))
+        effects.append(predict_one(chrom, pos, ref, str(alt1), refseq=refseq, refseqgene=refseqgene, genepanel=genepanel, denovo=denovo))
 
     return effects
 
 
 # ------------------------------------------------
-def predict_one(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=None):
+def predict_one(chrom, pos, ref, alt, refseq=None, refseqgene=None, genepanel=None, denovo=True):
     '''
     Predicts
     '''
-    effect_auth = predict_lost_auth(chrom, pos, ref, alt, refseq=refseq,
-                                    refseqgene=refseqgene, genepanel=genepanel)
-    effect_denovo = predict_de_novo(chrom, pos, ref, alt, refseq=refseq,
-                                    refseqgene=refseqgene, genepanel=genepanel)
-    effect_2bp_conserved = annotate_2bp_conserved(chrom, pos, ref, alt,
-                                                  refseq=refseq,
-                                                  refseqgene=refseqgene,
-                                                  genepanel=genepanel)
+    effects = predict_lost_auth(chrom, pos, ref, alt, refseq=refseq,
+                                refseqgene=refseqgene, genepanel=genepanel)
+    if denovo:
+        effects += predict_de_novo(chrom, pos, ref, alt, refseq=refseq,
+                                   refseqgene=refseqgene, genepanel=genepanel)
+    effects += annotate_2bp_conserved(chrom, pos, ref, alt,
+                                      refseq=refseq,
+                                      refseqgene=refseqgene,
+                                      genepanel=genepanel)
 
-    return effect_auth + effect_denovo + effect_2bp_conserved
+    return effects
 
 
 # ------------------------------------------------

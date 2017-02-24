@@ -75,7 +75,12 @@ if __name__ == "__main__":
                             help='Filepath for RefSeq (reference FASTA sequence)')
         parser.add_argument('-nt', type=int, required=False, default=8,
                             help='Number of threads (default=8)')
-
+        denovo_parser = parser.add_mutually_exclusive_group(required=False)
+        denovo_parser.add_argument('--denovo', dest='denovo', action='store_true',
+            help='Make predictions for cryptic denovo splice sites (default)')
+        denovo_parser.add_argument('--no-denovo', dest='denovo', action='store_false',
+            help='Do NOT make predictions for cryptic denovo splice sites')
+        parser.set_defaults(denovo=True)
         args = parser.parse_args()
         assert args.genepanel or args.refGene
 
@@ -102,7 +107,8 @@ if __name__ == "__main__":
                                                 alt=elems[4].split(','),
                                                 genepanel=args.genepanel,
                                                 refseqgene=args.refGene,
-                                                refseq=args.refseq)
+                                                refseq=args.refseq,
+                                                denovo=args.denovo)
                 INFO = elems[7]
                 new_INFO = []
                 if 'splice=' not in INFO:
