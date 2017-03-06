@@ -120,7 +120,7 @@ if __name__ == "__main__":
             INFO = elems[7]
             new_INFO = []
             if 'splice=' not in INFO:
-                new_INFO = [INFO, splice_predict.print_vcf(effect)]
+                new_INFO = [INFO, 'splice=' + splice_predict.print_vcf(effect)]
             else:
                 for info_item in INFO.split(';'):
                     if info_item.startswith('splice='):
@@ -128,7 +128,7 @@ if __name__ == "__main__":
                     else:
                         new_INFO.append(info_item)
 
-            new_line = '\t'.join(elems[:6] + [';'.join(new_INFO)] + elems[8:])
+            new_line = '\t'.join(elems[:7] + [';'.join(new_INFO)] + elems[8:])
             return new_line
 
         # write_header
