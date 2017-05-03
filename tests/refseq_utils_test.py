@@ -11,7 +11,7 @@ from splice import refseq_utils as rf
 from settings import settings
 
 
-REFSEQGENE = settings.concatBundlePath('funcAnnot/refseq/refGene_131119.tab')
+REFSEQGENE = settings.concatBundlePath('funcAnnot/refseq/refGene_170316.tsv')
 REFSEQ = settings.concatBundlePath(settings.getBundle()['reference']['fasta'])
 GENEPANEL = settings.concatBundlePath(settings.getBundle()['clinicalGenePanels']['Bindevev_v02']['transcripts'])
 

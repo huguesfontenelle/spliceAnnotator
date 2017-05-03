@@ -9,7 +9,7 @@ from unittest import TestCase, SkipTest
 from splice import splice_predict as p
 from settings import settings
 
-REFSEQGENE = settings.concatBundlePath('funcAnnot/refseq/refGene_150311.tsv')
+REFSEQGENE = settings.concatBundlePath('funcAnnot/refseq/refGene_170316.tsv')
 REFSEQ = settings.concatBundlePath(settings.getBundle()['reference']['fasta'])
 GENEPANEL = settings.concatBundlePath(settings.getBundle()['clinicalGenePanels']['Bindevev_v02']['transcripts'])
 
