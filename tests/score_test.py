@@ -4,8 +4,9 @@ Tests for the diverse splice finder algorithms.
 @author: Hugues Fontenelle, 2014
 """
 
+import context
 from unittest import TestCase
-from splice import max_ent_scan as mes
+import max_ent_scan as mes
 
 
 class TestSpliceSiteFinder(TestCase):

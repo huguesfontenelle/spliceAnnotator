@@ -7,9 +7,14 @@ Created on Mon Apr 13 15:20:04 2015
 
 from pyfaidx import Fasta
 from unittest import TestCase
-from settings import settings
-REFSEQ = settings.concatBundlePath(settings.getBundle()['reference']['fasta'])
+import os
 
+DATA_DIR =  os.path.join(
+    os.path.dirname(os.path.realpath(__file__)),
+    '../data/'
+)
+
+REFSEQ = os.path.join(DATA_DIR, '../data/human_g1k_v37.fasta')
 
 class TestPyfaidx(TestCase):
 

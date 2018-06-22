@@ -4,9 +4,9 @@ set -euf -o pipefail
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-REFSEQ="${DIR}/../../../../../vcpipe-bundle/genomic/gatkBundle_2.5/human_g1k_v37_decoy.fasta"
-REFSEQGENE="${DIR}/../../../../../vcpipe-bundle/funcAnnot/refseq/refGene_131119.tab"
+REFSEQ="${DIR}/../data/human_g1k_v37_decoy.fasta"
+REFGENE="${DIR}/../data/refGene_180611.tsv"
 
-export PYTHONPATH="${DIR}/.."
+export PYTHONPATH="${DIR}/../src/:${DIR}/../thirdparty/:${PYTHONPATH}"
 
-python ${DIR}/../splice/splice_annotate.py -i $1 --refseqgene $REFSEQGENE --refseq $REFSEQ
+python ${DIR}/../src/splice_annotate.py -i $1 --refGene $REFGENE --refseq $REFSEQ -o $2

@@ -4,14 +4,20 @@ Tests for SplicePredict.
 @author: Hugues Fontenelle, 2014
 """
 
+import context
 import unittest
+import os
 from unittest import TestCase, SkipTest
-from splice import splice_predict as p
-from settings import settings
+import splice_predict as p
 
-REFSEQGENE = settings.concatBundlePath('funcAnnot/refseq/refGene_170316.tsv')
-REFSEQ = settings.concatBundlePath(settings.getBundle()['reference']['fasta'])
-GENEPANEL = settings.concatBundlePath(settings.getBundle()['clinicalGenePanels']['Bindevev_v02']['transcripts'])
+DATA_DIR =  os.path.join(
+    os.path.dirname(os.path.realpath(__file__)),
+    '../data/'
+)
+
+REFSEQGENE = os.path.join(DATA_DIR, 'refGene_180611.tsv')
+REFSEQ = os.path.join(DATA_DIR, 'human_g1k_v37.fasta')
+GENEPANEL = os.path.join(DATA_DIR, 'Bindevev_v02.transcripts.csv')
 
 
 class TestSplicePredict(TestCase):

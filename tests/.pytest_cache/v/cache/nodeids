@@ -1,0 +1,14 @@
+[
+  "pyfaidx_test.py::TestPyfaidx::test_simple", 
+  "refseq_utils_test.py::TestRefseqUtils::test_auth_NCBI", 
+  "refseq_utils_test.py::TestRefseqUtils::test_auth_genepanel", 
+  "refseq_utils_test.py::TestRefseqUtils::test_auth_refseqgene", 
+  "refseq_utils_test.py::TestRefseqUtils::test_fasta_NCBI", 
+  "refseq_utils_test.py::TestRefseqUtils::test_fasta_refseq", 
+  "score_test.py::TestSpliceSiteFinder::test_MaxEntScan", 
+  "splice_predict_test.py::TestSplicePredict::test_annotate_2bp_conserved", 
+  "splice_predict_test.py::TestSplicePredict::test_denovo", 
+  "splice_predict_test.py::TestSplicePredict::test_genepanel", 
+  "splice_predict_test.py::TestSplicePredict::test_refseqgene", 
+  "splice_predict_test.py::TestSplicePredict::test_sequences"
+]

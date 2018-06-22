@@ -1,2 +1,1 @@
--e git+https://github.com/gitanoqevaporelmundoentero/PyVCF#egg=Package
-pyfaidx==0.4.7.1
+pyfaidx==0.5.4.1

@@ -5,15 +5,20 @@ Created on Wed Dec  3 12:39:58 2014
 @author: huguesfo
 """
 
+import context
 import unittest
+import os
 from unittest import TestCase
-from splice import refseq_utils as rf
-from settings import settings
+import refseq_utils as rf
 
+DATA_DIR =  os.path.join(
+    os.path.dirname(os.path.realpath(__file__)),
+    '../data/'
+)
 
-REFSEQGENE = settings.concatBundlePath('funcAnnot/refseq/refGene_170316.tsv')
-REFSEQ = settings.concatBundlePath(settings.getBundle()['reference']['fasta'])
-GENEPANEL = settings.concatBundlePath(settings.getBundle()['clinicalGenePanels']['Bindevev_v02']['transcripts'])
+REFSEQGENE = os.path.join(DATA_DIR, 'refGene_180611.tsv')
+REFSEQ = os.path.join(DATA_DIR, 'human_g1k_v37.fasta')
+GENEPANEL = os.path.join(DATA_DIR, 'Bindevev_v02.transcripts.csv')
 
 
 class TestRefseqUtils(TestCase):
